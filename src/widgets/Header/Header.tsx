@@ -1,3 +1,4 @@
+import Navigation from "../../shared/ui/Navigation";
 import styles from "./Header.module.scss";
 
 const Header = () => {
@@ -7,6 +8,7 @@ const Header = () => {
         src=""
         alt="Logo"
       />
+      <Navigation />
     </div>
   );
 };
