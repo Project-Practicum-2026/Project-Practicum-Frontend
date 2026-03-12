@@ -1,0 +1,12 @@
+{
+  "login": {
+    "email": "Email",
+    "password": "Пароль",
+    "login": "Увійти",
+    "rememberMe": "Запам'ятати мене",
+    "forgotPassword": "Забули свій пароль?"
+  },
+  "error": {
+    "required": "This field is required"
+  }
+}
