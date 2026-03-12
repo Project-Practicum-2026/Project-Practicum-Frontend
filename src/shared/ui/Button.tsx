@@ -1,15 +1,23 @@
 import type { FC, PropsWithChildren } from "react";
+import styles from "./Button.module.scss";
 
 interface IButtonProps {
-  variant?: "primary" | "secondary";
-  onClick: () => void;
+  variant?: "primary" | "success" | "danger";
+  onClick?: () => void;
+  className?: string; // Щоб можна було додавати відступи ззовні
 }
 
-const Button: FC<PropsWithChildren & IButtonProps> = ({ children, variant, onClick }) => {
+const Button: FC<PropsWithChildren<IButtonProps>> = ({
+  children,
+  variant = "primary", // Значення за замовчуванням
+  onClick,
+  className = "",
+}) => {
+  // Формуємо рядок з класами. Завжди є базовий .button, і додається модифікатор
+  const buttonClass = `${styles.button} ${styles[`button--${variant}`]} ${className}`;
+
   return (
-    <button
-      className={variant === "primary" ? "bg-blue-500 text-white" : "bg-gray-300 text-black"}
-      onClick={onClick}>
+    <button className={buttonClass} onClick={onClick}>
       {children}
     </button>
   );
