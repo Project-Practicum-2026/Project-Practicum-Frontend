@@ -25,6 +25,7 @@ const LoginForm = () => {
         <label htmlFor="email">{textData.login.email}</label>
         <input
           className={errors.email && styles["form__error"]}
+          placeholder={textData.login.placeholders.email}
           {...register("email", { required: true })}
         />
         {errors.email && <span className={styles["form__error"]}>{textData.error.required}</span>}
@@ -33,6 +34,7 @@ const LoginForm = () => {
         <label htmlFor="password">{textData.login.password}</label>
         <input
           className={errors.password && styles["form__error"]}
+          placeholder={textData.login.placeholders.password}
           type="password"
           {...register("password", { required: true })}
         />
