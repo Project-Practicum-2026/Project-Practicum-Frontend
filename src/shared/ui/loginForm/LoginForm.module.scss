@@ -1,0 +1,30 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: $size-lg;
+
+    &__row {
+        display: flex;
+        flex-direction: column;
+        gap: $size-md;
+
+        &>input {
+            width: 31rem;
+            height: 3rem;
+
+            font-size: 1.2rem;
+            border-radius: $size-sm;
+        }
+    }
+
+    &__checkbox-row {
+        display: flex;
+        align-items: center;
+        gap: $size-md;
+
+        &>input {
+            width: $size-lg;
+            height: $size-lg;
+        }
+    }
+}
