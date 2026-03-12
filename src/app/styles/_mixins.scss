@@ -1,0 +1,118 @@
+// Base styles (to avoid duplication)
+
+@mixin base-heading {
+  font-family: $font-heading;
+  font-weight: 700;
+}
+
+@mixin base-body {
+  font-family: $font-body;
+  line-height: 1.31;
+}
+
+// Mixins for Typography (Responsive)
+
+// --- HEADERS ---
+
+@mixin text-header-1 {
+  @include base-heading;
+  font-size: 7.25rem; // 116px
+  line-height: 1.1;
+  letter-spacing: -0.05em;
+
+  @media (max-width: $tablet) {
+    font-size: 4.5rem;
+  }
+  @media (max-width: $mobile) {
+    font-size: $size-xl;
+    line-height: 0.8;
+  }
+}
+
+@mixin text-header-2 {
+  @include base-heading;
+  font-size: $size-xxl; // 48px
+  line-height: 0.91;
+  letter-spacing: -0.03em;
+
+  @media (max-width: $desktop) {
+    font-size: $size-xl;
+  }
+  @media (max-width: $mobile) {
+    font-size: $size-lg;
+  }
+}
+
+@mixin text-header-3 {
+  @include base-heading;
+  font-size: 3.5rem; // 56px
+  line-height: 1;
+  letter-spacing: 0;
+
+  @media (max-width: $tablet) {
+    letter-spacing: -0.05em;
+  }
+  @media (max-width: $mobile) {
+    font-size: $size-xxl;
+    letter-spacing: -0.05em;
+  }
+}
+
+@mixin text-header-4 {
+  @include base-heading;
+  font-size: $size-lg; // 24px
+  line-height: 0.91;
+  letter-spacing: -0.03em;
+}
+
+@mixin text-header-5 {
+  @include base-heading;
+  font-size: $size-lg; // 24px
+  line-height: 1.31;
+  letter-spacing: -0.03em;
+}
+
+// --- PARAGRAPHS ---
+
+@mixin text-paragraph-1 {
+  @include base-body;
+  font-weight: 700;
+  font-size: $size-xl; // 32px
+  letter-spacing: -0.03em;
+
+  @media (max-width: $desktop) {
+    font-size: $size-md;
+  }
+}
+
+@mixin text-paragraph-2 {
+  @include base-body;
+  font-weight: 500;
+  font-size: $size-md; // 16px
+  letter-spacing: 0.01em;
+
+  @media (max-width: $desktop) {
+    font-size: 0.875rem;
+  }
+}
+
+@mixin text-paragraph-3 {
+  @include base-body;
+  font-weight: 700;
+  font-size: 0.875rem; // 14px
+  letter-spacing: 0.01em;
+}
+
+// --- LINKS ---
+
+@mixin text-links-nav {
+  font-family: $font-mono;
+  font-weight: 400;
+  font-size: $size-md; // 16px
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+@mixin text-links-button {
+  @include text-links-nav;
+}
