@@ -27,4 +27,9 @@
             height: $size-lg;
         }
     }
+
+    &__error {
+        color: $additional-accent;
+        border-color: $additional-accent !important;
+    }
 }

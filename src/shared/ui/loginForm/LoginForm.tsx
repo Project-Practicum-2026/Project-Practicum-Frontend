@@ -23,16 +23,20 @@ const LoginForm = () => {
       className={styles["form"]}>
       <div className={styles["form__row"]}>
         <label htmlFor="email">{textData.login.email}</label>
-        <input {...register("email", { required: true })} />
-        {errors.email && <span>{textData.error.required}</span>}
+        <input
+          className={errors.email && styles["form__error"]}
+          {...register("email", { required: true })}
+        />
+        {errors.email && <span className={styles["form__error"]}>{textData.error.required}</span>}
       </div>
       <div className={styles["form__row"]}>
         <label htmlFor="password">{textData.login.password}</label>
         <input
+          className={errors.password && styles["form__error"]}
           type="password"
           {...register("password", { required: true })}
         />
-        {errors.password && <span>{textData.error.required}</span>}
+        {errors.password && <span className={styles["form__error"]}>{textData.error.required}</span>}
       </div>
       <div className={styles["form__checkbox-row"]}>
         <input
