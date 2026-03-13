@@ -1,0 +1,89 @@
+@import "/src/app/styles/variables.scss";
+@import "/src/app/styles/mixins.scss";
+
+.footer {
+  padding: $size-xl;
+  display: flex;
+  flex-direction: column;
+  gap: $size-3xl; // Відстань між верхнім і нижнім рядком на десктопі
+
+  @media (max-width: $mobile) {
+    align-items: center;
+  }
+
+  // Спільні стилі для обох рядків
+  &__top-row,
+  &__bottom-row {
+    display: flex;
+    justify-content: space-between;
+
+    @media (max-width: $mobile) {
+      flex-direction: column;
+      align-items: center;
+
+      gap: $size-lg; // Відстань між елементами в стовпчику
+    }
+  }
+
+  // Специфічні стилі для верхнього рядка
+  &__top-row {
+    align-items: center; // Щоб лого і назва були на одній лінії по вертикалі
+  }
+
+  &__logo {
+    max-width: 150px;
+    height: auto;
+  }
+
+  &__brand {
+    @include text-header-2;
+  }
+
+  &__schedule {
+    text-align: right;
+
+    @media (max-width: $mobile) {
+      text-align: left;
+    }
+  }
+
+  &__title {
+    @include text-paragraph-1;
+    text-transform: uppercase;
+    margin-bottom: $size-md;
+
+    @media (max-width: $mobile) {
+      text-align: center;
+    }
+  }
+
+  &__text {
+    @include text-paragraph-2;
+    margin-bottom: $size-xs;
+    font-weight: 700;
+  }
+
+  &__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      @include text-paragraph-2;
+      font-weight: 700;
+      display: flex;
+      justify-content: center;
+      gap: $size-xl;
+      margin-bottom: $size-xs;
+
+      @media (max-width: $mobile) {
+        justify-content: flex-start;
+      }
+
+      span:first-child {
+        width: 80px;
+        text-align: left;
+      }
+    }
+  }
+}

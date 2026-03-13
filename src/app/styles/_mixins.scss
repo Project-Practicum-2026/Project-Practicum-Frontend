@@ -20,9 +20,6 @@
   line-height: 1.1;
   letter-spacing: -0.05em;
 
-  @media (max-width: $tablet) {
-    font-size: 4.5rem;
-  }
   @media (max-width: $mobile) {
     font-size: $size-xl;
     line-height: 0.8;
@@ -35,11 +32,8 @@
   line-height: 0.91;
   letter-spacing: -0.03em;
 
-  @media (max-width: $desktop) {
-    font-size: $size-xl;
-  }
   @media (max-width: $mobile) {
-    font-size: $size-lg;
+    font-size: $size-xl;
   }
 }
 
@@ -49,9 +43,6 @@
   line-height: 1;
   letter-spacing: 0;
 
-  @media (max-width: $tablet) {
-    letter-spacing: -0.05em;
-  }
   @media (max-width: $mobile) {
     font-size: $size-xxl;
     letter-spacing: -0.05em;
@@ -77,11 +68,11 @@
 @mixin text-paragraph-1 {
   @include base-body;
   font-weight: 700;
-  font-size: $size-xl; // 32px
+  font-size: $size-lg;
   letter-spacing: -0.03em;
 
-  @media (max-width: $desktop) {
-    font-size: $size-md;
+  @media (max-width: $mobile) {
+    font-size: 1.2rem;
   }
 }
 
@@ -91,7 +82,7 @@
   font-size: $size-md; // 16px
   letter-spacing: 0.01em;
 
-  @media (max-width: $desktop) {
+  @media (max-width: $mobile) {
     font-size: 0.875rem;
   }
 }
