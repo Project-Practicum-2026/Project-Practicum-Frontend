@@ -12,5 +12,26 @@
   },
   "error": {
     "required": "This field is required"
+  },
+  "nav": {
+    "home": "Головна",
+    "about": "Про нас",
+    "login": "Авторизація"
+  },
+  "company": {
+    "name": "LogicGlobal",
+    "contacts": "Контакти",
+    "contactItems": [
+      { "label": "Email", "value": "logicglobal@gmail.com" },
+      { "label": "Телефон", "value": "(066) 555-5555" },
+      { "label": "Адреса", "value": "вул. Прикладна, 1, Київ, Україна" }
+    ],
+    "workTime": "Час роботи офісу",
+    "schedule": [
+      { "days": "ПН - ПТ", "hours": "5:00 - 23:00" },
+      { "days": "СУБОТА", "hours": "8:00 - 16:00" },
+      { "days": "НЕДІЛЯ", "hours": "8:00 - 13:00" },
+      { "days": "СВЯТА", "hours": "8:00 - 16:00" }
+    ]
   }
 }

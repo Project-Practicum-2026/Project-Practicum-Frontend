@@ -1,0 +1,102 @@
+@import "/src/app/styles/variables.scss";
+@import "/src/app/styles/mixins.scss";
+
+.nav {
+  display: flex;
+  align-items: center;
+
+  &__list {
+    display: flex;
+    align-items: center;
+    gap: $size-lg;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    @media (max-width: $mobile) {
+      flex-direction: column;
+      align-items: stretch; // Розтягує елементи на всю ширину
+      width: 100%;
+      gap: 0; // Прибираємо відступи, бо будуть лінії
+    }
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+
+    @media (max-width: $mobile) {
+      width: 100%;
+      border-top: 1px solid darken($primary-accent, 20%); // Додаємо лінію зверху
+
+      // Для останнього елемента (де кнопка) можна прибрати відступи
+      &:last-child {
+        border-bottom: 1px solid darken($primary-accent, 25%);
+      }
+    }
+
+    &--action {
+      @media (max-width: $mobile) {
+        background-color: $primary-accent;
+        transition: background-color 0.2s ease;
+
+        &:hover {
+          background-color: darken($primary-accent, 15%);
+        }
+
+        // Жорстко перевизначаємо стилі КНОПКИ, яка лежить всередині
+        button {
+          width: 100%;
+          background: transparent;
+          box-shadow: none;
+          border-radius: 0;
+          padding: $size-md $size-xl; // Ставимо такі ж відступи, як у звичайних посилань
+          justify-content: flex-start;
+
+          // Прибираємо внутрішні ефекти кнопки
+          &:hover {
+            background: transparent; // Щоб ховер кнопки не перебивав ховер рядка
+          }
+          &:active {
+            transform: none; // Щоб вона не "просідала" при кліку
+            box-shadow: none;
+          }
+        }
+      }
+    }
+  }
+
+  &__link {
+    @include text-links-nav;
+    display: block; // Дозволяє застосовувати правильні відступи
+    padding: $size-md $size-lg; // Додає клікабельну область навколо тексту (16px зверху/знизу, 24px по боках)
+
+    text-transform: uppercase;
+
+    color: $primary-black;
+    text-decoration: none;
+    transition: color 0.2s ease;
+
+    // Вмикаємо підкреслення, але робимо його невидимим
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: $size-xs; // Відсуваємо лінію трохи вниз, щоб виглядало охайно
+
+    //Додаємо в транзішн анімацію для кольору лінії
+    transition:
+      color 0.2s ease,
+      text-decoration-color 0.2s ease;
+
+    @media (max-width: $mobile) {
+      width: 100%; // Щоб посилання займало весь рядок
+      padding: $size-md $size-xl; // Робимо відступи більшими на мобілці
+      text-decoration: none; // Вимикаємо підкреслення на мобілці
+    }
+
+    &:hover {
+      color: $primary-accent;
+      text-decoration-color: $primary-accent; //Плавно проявляємо лінію підкреслення
+      filter: brightness(90%);
+    }
+  }
+}
