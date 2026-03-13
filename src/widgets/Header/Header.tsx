@@ -7,7 +7,7 @@ const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const toggleMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
+    setIsMobileMenuOpen((prev) => !prev);
   };
 
   return (
@@ -25,7 +25,7 @@ const Header = () => {
         <Navigation />
       </div>
 
-      {/* Кнопка бургера / мінуса */}
+      {/* Кнопка меню*/}
       <button className={styles["header__burger-btn"]} onClick={toggleMenu}>
         <svg
           width="30"
@@ -35,7 +35,7 @@ const Header = () => {
           xmlns="http://www.w3.org/2000/svg"
         >
           {isMobileMenuOpen ? (
-            // Іконка мінуса (коли меню відкрите)
+            // Іконка коли меню відкрите
             <path
               d="M4 12H20"
               stroke="black"
@@ -44,7 +44,7 @@ const Header = () => {
               strokeLinejoin="round"
             />
           ) : (
-            // Іконка бургера (коли меню закрите)
+            // Іконка коли меню закрите
             <path
               d="M4 6H20M4 12H20M4 18H20"
               stroke="black"
@@ -59,7 +59,7 @@ const Header = () => {
       {/* Мобільне меню */}
       <div
         className={`${styles["header__mobile-menu"]} ${
-          isMobileMenuOpen ? styles["header__mobile-menu--open"] : ""
+          isMobileMenuOpen && styles["header__mobile-menu--open"]
         }`}
       >
         <Navigation />

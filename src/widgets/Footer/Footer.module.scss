@@ -61,6 +61,9 @@
     @include text-paragraph-2;
     margin-bottom: $size-xs;
     font-weight: 700;
+    @media (max-width: $mobile) {
+      text-align: center;
+    }
   }
 
   &__list {

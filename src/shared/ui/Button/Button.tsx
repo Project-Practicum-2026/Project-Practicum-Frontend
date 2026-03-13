@@ -3,6 +3,7 @@ import styles from "./Button.module.scss";
 
 interface IButtonProps {
   variant?: "primary" | "success" | "danger";
+  type?: "button" | "submit";
   onClick?: () => void;
   className?: string; // Щоб можна було додавати відступи ззовні
 }
