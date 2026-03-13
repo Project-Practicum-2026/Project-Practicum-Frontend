@@ -1,0 +1,67 @@
+@import "/src/app/styles/variables.scss";
+@import "/src/app/styles/mixins.scss";
+
+.button {
+  @include text-links-button;
+
+  // Базові стилі, спільні для всіх кнопок
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.8rem $size-md;
+  background-color: $primary-white;
+  color: $primary-black;
+  border: none;
+  border-radius: $size-sm;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-transform: uppercase;
+
+  // Анімація для плавного ховеру
+  transition:
+    filter 0.2s ease,
+    transform 0.1s ease;
+
+  // універсальний ховер
+  &:hover {
+    color: $primary-white;
+  }
+
+  // Ефект натискання (кнопка трохи просідає)
+  &:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  // Variants
+
+  // Основна синя кнопка
+  &--primary {
+    background-color: $primary-accent;
+    color: $primary-white;
+
+    &:hover {
+      background-color: darken($primary-accent, 15%);
+    }
+  }
+
+  // Зелена кнопка (Редагувати, Завантажити)
+  &--success {
+    background-color: $secondary-accent;
+    color: $primary-black;
+
+    &:hover {
+      background-color: darken($secondary-accent, 15%);
+    }
+  }
+
+  // Червона кнопка (Видалити, Відмовитися)
+  &--danger {
+    background-color: $additional-accent;
+    color: $primary-white;
+
+    &:hover {
+      background-color: darken($additional-accent, 15%);
+    }
+  }
+}

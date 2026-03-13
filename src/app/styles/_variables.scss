@@ -3,13 +3,28 @@
 $primary-white: #fff;
 $primary-black: #000;
 
-$primary-sky-blue: #a2ebfe;
+$primary-accent: #35bbef;
+$primary-light: #a1eaff;
 
-$primary-green: #bdfdcf;
+$secondary-accent: #a5ffbe;
+$secondary-primary: #b5ffc9;
+$secondary-light: #f1fef5;
 
-$light-grey: #f1fef5;
+$additional-accent: #ef3535;
 
+$primary-bg: linear-gradient(to left, $primary-white 0%, $primary-light 100%);
 
+$secondary-bg: linear-gradient(
+  to right,
+  $secondary-light 2%,
+  $secondary-primary 100%
+);
+
+// FONTS
+
+$font-heading: "PT Sans Caption", sans-serif;
+$font-body: "Geist", sans-serif;
+$font-mono: "Geist Mono", monospace;
 
 // Size variables
 
@@ -20,3 +35,7 @@ $size-lg: 1.5rem; // 24px
 $size-xl: 2rem; // 32px
 $size-xxl: 3rem; // 48px
 $size-3xl: 4rem; // 64px
+
+// BREAKPOINTS
+$mobile: 799px;
+$desktop: 1279px;
