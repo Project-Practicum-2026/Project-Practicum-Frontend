@@ -1,5 +1,5 @@
-@import "../../app/styles/variables.scss";
-@import "../../app/styles/mixins.scss";
+@import "/src/app/styles/variables.scss";
+@import "/src/app/styles/mixins.scss";
 
 .button {
   @include text-links-button;
@@ -8,7 +8,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: $size-md $size-lg;
+  padding: 0.8rem $size-md;
   background-color: $primary-white;
   color: $primary-black;
   border: none;
@@ -22,9 +22,8 @@
     filter 0.2s ease,
     transform 0.1s ease;
 
-  // універсальний ховер (робить кнопку на 30% темнішою)
+  // універсальний ховер
   &:hover {
-    filter: brightness(70%);
     color: $primary-white;
   }
 
@@ -40,17 +39,29 @@
   &--primary {
     background-color: $primary-accent;
     color: $primary-white;
+
+    &:hover {
+      background-color: darken($primary-accent, 15%);
+    }
   }
 
   // Зелена кнопка (Редагувати, Завантажити)
   &--success {
     background-color: $secondary-accent;
     color: $primary-black;
+
+    &:hover {
+      background-color: darken($secondary-accent, 15%);
+    }
   }
 
   // Червона кнопка (Видалити, Відмовитися)
   &--danger {
     background-color: $additional-accent;
     color: $primary-white;
+
+    &:hover {
+      background-color: darken($additional-accent, 15%);
+    }
   }
 }

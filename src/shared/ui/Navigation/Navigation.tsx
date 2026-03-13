@@ -1,5 +1,5 @@
 import { NavLink, useNavigate } from "react-router";
-import Button from "./Button";
+import Button from "../Button/Button";
 import styles from "./Navigation.module.scss";
 
 const Navigation = () => {
@@ -21,11 +21,11 @@ const Navigation = () => {
         </li>
 
         {/* кнопка авторизації */}
-        <li className={styles.nav__item}>
+        <li className={`${styles["nav__item"]} ${styles["nav__item--action"]}`}>
           <Button
             variant="primary"
             onClick={() => {
-              navigate("/login"); // Шлях до сторінки авторизації (можеш змінити на свій)
+              navigate("/login"); // Шлях до сторінки авторизації
             }}
           >
             Авторизація

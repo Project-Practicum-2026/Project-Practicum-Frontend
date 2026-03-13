@@ -12,6 +12,14 @@ $secondary-light: #f1fef5;
 
 $additional-accent: #ef3535;
 
+$primary-bg: linear-gradient(to left, $primary-white 0%, $primary-light 100%);
+
+$secondary-bg: linear-gradient(
+  to right,
+  $secondary-light 2%,
+  $secondary-primary 100%
+);
+
 // FONTS
 
 $font-heading: "PT Sans Caption", sans-serif;

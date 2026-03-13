@@ -1,3 +1,83 @@
+@import "/src/app/styles/variables.scss";
+
 .header {
-    height: 4.5rem;
+  position: sticky;
+  top: 0;
+
+  display: flex;
+  justify-content: space-between; // Розкидає логотип і меню по краях
+  align-items: center;
+  height: 4.5rem;
+  padding: 0 $size-xl;
+  z-index: 20;
+  background-image: $primary-bg;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+
+  &__logo-link {
+    height: 60%;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
+
+  &__logo {
+    height: 100%; // картинка займає всю висоту лінка
+    width: auto;
+    object-fit: contain; // Зберігає пропорції картинки
+  }
+
+  // Контейнер для десктопу
+  &__nav-desktop {
+    display: flex;
+
+    @media (max-width: $mobile) {
+      display: none; // Ховаємо на мобільних
+    }
+  }
+
+  // Кнопка бургера
+  &__burger-btn {
+    display: none; // Сховано на десктопі
+    background: transparent;
+    border: none;
+    padding: $size-sm;
+    cursor: pointer;
+    z-index: 30; // Завжди поверх меню
+
+    @media (max-width: $mobile) {
+      display: flex; // Показуємо на мобільних
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  // Випадаюче мобільне меню
+  &__mobile-menu {
+    display: none; // За замовчуванням сховано на десктопі
+
+    @media (max-width: $mobile) {
+      display: block; // На мобілці робимо блоком, але ховаємо через opacity
+      position: absolute;
+      top: 100%; // Одразу під хедером (тобто 4.5rem)
+      left: 0;
+      width: 100%;
+      background-color: $primary-white;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+      // Анімація появи
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+    }
+
+    // Модифікатор, який додається, коли меню відкрите
+    &--open {
+      @media (max-width: $mobile) {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+    }
+  }
 }

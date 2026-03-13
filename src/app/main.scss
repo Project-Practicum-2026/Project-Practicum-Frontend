@@ -5,9 +5,5 @@
 }
 
 main {
-  background-image: linear-gradient(
-    to right,
-    $secondary-light 2%,
-    $secondary-primary 100%
-  );
+  background-image: $secondary-bg;
 }
