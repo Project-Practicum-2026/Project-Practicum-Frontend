@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import type { SubmitHandler } from "react-hook-form";
 import textData from "../../../textData/ua.json";
 import styles from "./LoginForm.module.scss";
+import { loginUser } from "../../api";
 
 interface ILoginForm {
   email: string;
@@ -15,7 +16,14 @@ const LoginForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<ILoginForm>();
-  const onSubmit: SubmitHandler<ILoginForm> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<ILoginForm> = async (data) => {
+    const loginData = await loginUser({
+      email: data.email,
+      password: data.password,
+    });
+
+    console.log(loginData);
+  };
 
   return (
     <form
@@ -40,14 +48,14 @@ const LoginForm = () => {
         />
         {errors.password && <span className={styles["form__error"]}>{textData.error.required}</span>}
       </div>
-      <div className={styles["form__checkbox-row"]}>
+      {/* <div className={styles["form__checkbox-row"]}>
         <input
           type="checkbox"
           id="rememberMe"
           {...register("rememberMe")}
         />
         <label htmlFor="rememberMe">{textData.login.rememberMe}</label>
-      </div>
+      </div> */}
       <button type="submit">{textData.login.login}</button>
     </form>
   );

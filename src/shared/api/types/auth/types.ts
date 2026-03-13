@@ -5,7 +5,7 @@ export interface IRegisterData {
   role: ERoles;
 }
 
-export interface IRegisterResponse {
+export interface IAuthResponse {
   refresh_token: string;
   access_token: string;
 }
