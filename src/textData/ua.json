@@ -4,7 +4,11 @@
     "password": "Пароль",
     "login": "Увійти",
     "rememberMe": "Запам'ятати мене",
-    "forgotPassword": "Забули свій пароль?"
+    "forgotPassword": "Забули свій пароль?",
+    "placeholders": {
+      "email": "email@example.com",
+      "password": "password"
+    }
   },
   "error": {
     "required": "This field is required"

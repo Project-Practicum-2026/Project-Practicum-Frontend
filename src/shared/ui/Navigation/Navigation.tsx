@@ -2,6 +2,8 @@ import { NavLink, useNavigate } from "react-router";
 import Button from "../Button/Button";
 import styles from "./Navigation.module.scss";
 import textData from "../../../textData/ua.json";
+import { EButtonVariants } from "../../types/button.types";
+import { ROUTES } from "../../config/routes";
 
 const Navigation = () => {
   const navigate = useNavigate();
@@ -11,12 +13,16 @@ const Navigation = () => {
       <ul className={styles.nav__list}>
         {/* Звичайні текстові посилання */}
         <li className={styles.nav__item}>
-          <NavLink to="/" className={styles.nav__link}>
+          <NavLink
+            to={ROUTES.ROOT}
+            className={styles.nav__link}>
             {textData.nav.home}
           </NavLink>
         </li>
         <li className={styles.nav__item}>
-          <NavLink to="/about" className={styles.nav__link}>
+          <NavLink
+            to={ROUTES.ABOUT}
+            className={styles.nav__link}>
             {textData.nav.about}
           </NavLink>
         </li>
@@ -24,11 +30,10 @@ const Navigation = () => {
         {/* кнопка авторизації */}
         <li className={`${styles["nav__item"]} ${styles["nav__item--action"]}`}>
           <Button
-            variant="primary"
+            variant={EButtonVariants.PRIMARY}
             onClick={() => {
-              navigate("/login");
-            }}
-          >
+              navigate(ROUTES.LOGIN);
+            }}>
             {textData.nav.login}
           </Button>
         </li>

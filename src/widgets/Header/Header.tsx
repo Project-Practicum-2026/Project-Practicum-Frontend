@@ -2,6 +2,7 @@ import { useState } from "react";
 import { NavLink } from "react-router";
 import Navigation from "../../shared/ui/Navigation/Navigation";
 import styles from "./Header.module.scss";
+import { ROUTES } from "../../shared/config/routes";
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -12,7 +13,9 @@ const Header = () => {
 
   return (
     <header className={styles.header}>
-      <NavLink to="/" className={styles["header__logo-link"]}>
+      <NavLink
+        to={ROUTES.ROOT}
+        className={styles["header__logo-link"]}>
         <img
           src="/logo-line.png"
           alt="LogicGlobal Logo"
@@ -26,14 +29,15 @@ const Header = () => {
       </div>
 
       {/* Кнопка меню*/}
-      <button className={styles["header__burger-btn"]} onClick={toggleMenu}>
+      <button
+        className={styles["header__burger-btn"]}
+        onClick={toggleMenu}>
         <svg
           width="30"
           height="30"
           viewBox="0 0 24 24"
           fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
+          xmlns="http://www.w3.org/2000/svg">
           {isMobileMenuOpen ? (
             // Іконка коли меню відкрите
             <path
@@ -57,11 +61,7 @@ const Header = () => {
       </button>
 
       {/* Мобільне меню */}
-      <div
-        className={`${styles["header__mobile-menu"]} ${
-          isMobileMenuOpen && styles["header__mobile-menu--open"]
-        }`}
-      >
+      <div className={`${styles["header__mobile-menu"]} ${isMobileMenuOpen && styles["header__mobile-menu--open"]}`}>
         <Navigation />
       </div>
     </header>

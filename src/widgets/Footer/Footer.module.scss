@@ -7,6 +7,9 @@
   flex-direction: column;
   gap: $size-3xl; // Відстань між верхнім і нижнім рядком на десктопі
 
+  flex: 1;
+  justify-content: flex-end;
+
   @media (max-width: $mobile) {
     align-items: center;
   }
@@ -61,6 +64,7 @@
     @include text-paragraph-2;
     margin-bottom: $size-xs;
     font-weight: 700;
+
     @media (max-width: $mobile) {
       text-align: center;
     }

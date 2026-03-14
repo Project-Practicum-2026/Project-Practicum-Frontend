@@ -5,5 +5,10 @@
   background-image: $primary-bg;
 
   width: 100%;
+  min-height: 100vh;
+}
+
+main {
+  background-image: $secondary-bg;
   height: 100%;
 }
