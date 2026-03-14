@@ -1,16 +1,18 @@
 import type { FC, PropsWithChildren } from "react";
 import styles from "./Button.module.scss";
+import type { EButtonTypes } from "../../types/button.types";
+import { EButtonVariants } from "../../types/button.types";
 
 interface IButtonProps {
-  variant?: "primary" | "success" | "danger";
-  type?: "button" | "submit";
+  variant?: EButtonVariants;
+  type?: EButtonTypes;
   onClick?: () => void;
   className?: string; // Щоб можна було додавати відступи ззовні
 }
 
 const Button: FC<PropsWithChildren<IButtonProps>> = ({
   children,
-  variant = "primary", // Значення за замовчуванням
+  variant = EButtonVariants.PRIMARY, // Значення за замовчуванням
   onClick,
   className = "",
 }) => {
@@ -18,7 +20,9 @@ const Button: FC<PropsWithChildren<IButtonProps>> = ({
   const buttonClass = `${styles.button} ${styles[`button--${variant}`]} ${className}`;
 
   return (
-    <button className={buttonClass} onClick={onClick}>
+    <button
+      className={buttonClass}
+      onClick={onClick}>
       {children}
     </button>
   );

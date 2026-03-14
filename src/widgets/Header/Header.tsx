@@ -2,6 +2,7 @@ import { useState } from "react";
 import { NavLink } from "react-router";
 import Navigation from "../../shared/ui/Navigation/Navigation";
 import styles from "./Header.module.scss";
+import { ROUTES } from "../../shared/config/routes";
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -13,7 +14,7 @@ const Header = () => {
   return (
     <header className={styles.header}>
       <NavLink
-        to="/"
+        to={ROUTES.ROOT}
         className={styles["header__logo-link"]}>
         <img
           src="/logo-line.png"

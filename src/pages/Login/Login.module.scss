@@ -1,0 +1,32 @@
+.login {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+
+    &__title {
+        height: 5rem;
+
+        background-color: $primary-white;
+
+        width: 100%;
+
+        display: flex;
+        align-items: center;
+
+        border-bottom: 1px solid $primary-black;
+
+        &>h1 {
+            margin-left: 1.25rem;
+
+        }
+
+        &>h1>span {
+            color: $primary-accent;
+        }
+    }
+}

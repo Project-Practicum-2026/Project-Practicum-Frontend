@@ -3,6 +3,12 @@ import type { SubmitHandler } from "react-hook-form";
 import textData from "../../../textData/ua.json";
 import styles from "./LoginForm.module.scss";
 import { loginUser } from "../../api";
+import Button from "../Button/Button";
+import { EButtonTypes } from "../../types/button.types";
+import { useCustomDispatch } from "../../../store/hooks";
+import { setAuthData } from "../../../store/userSlice";
+import { useNavigate } from "react-router";
+import { ROUTES } from "../../config/routes";
 
 interface ILoginForm {
   email: string;
@@ -16,13 +22,23 @@ const LoginForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<ILoginForm>();
-  const onSubmit: SubmitHandler<ILoginForm> = async (data) => {
-    const loginData = await loginUser({
-      email: data.email,
-      password: data.password,
-    });
 
-    console.log(loginData);
+  const dispatch = useCustomDispatch();
+  const navigate = useNavigate();
+
+  const onSubmit: SubmitHandler<ILoginForm> = async (data) => {
+    try {
+      const { accessToken, refreshToken } = await loginUser({ email: data.email, password: data.password });
+
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
+
+      dispatch(setAuthData({ accessToken }));
+
+      navigate(ROUTES.ROOT);
+    } catch (error) {
+      console.error("login error:", error);
+    }
   };
 
   return (
@@ -48,15 +64,7 @@ const LoginForm = () => {
         />
         {errors.password && <span className={styles["form__error"]}>{textData.error.required}</span>}
       </div>
-      {/* <div className={styles["form__checkbox-row"]}>
-        <input
-          type="checkbox"
-          id="rememberMe"
-          {...register("rememberMe")}
-        />
-        <label htmlFor="rememberMe">{textData.login.rememberMe}</label>
-      </div> */}
-      <button type="submit">{textData.login.login}</button>
+      <Button type={EButtonTypes.SUBMIT}>{textData.login.login}</Button>
     </form>
   );
 };

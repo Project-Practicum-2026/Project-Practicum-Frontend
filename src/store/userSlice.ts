@@ -3,26 +3,34 @@ import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 interface IUserState {
   isAuth: boolean;
   accessToken: string | null;
-  refreshToken: string | null;
+  isAuthChecked: boolean;
 }
 
 const initialState: IUserState = {
   isAuth: false,
   accessToken: null,
-  refreshToken: null,
+  isAuthChecked: false,
 };
 
-const userSllice = createSlice({
+const userSlice = createSlice({
   name: "user",
-  initialState: initialState,
+  initialState,
   reducers: {
-    setAuthData: (state: IUserState, action: PayloadAction<{ accessToken: string; refreshToken: string }>) => {
+    setAuthData: (state, action: PayloadAction<{ accessToken: string }>) => {
       state.isAuth = true;
       state.accessToken = action.payload.accessToken;
-      state.refreshToken = action.payload.refreshToken;
+    },
+    setAuthChecked: (state, action: PayloadAction<boolean>) => {
+      state.isAuthChecked = action.payload;
+    },
+    logout: (state) => {
+      state.isAuth = false;
+      state.accessToken = null;
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
     },
   },
 });
 
-export const { setAuthData } = userSllice.actions;
-export default userSllice.reducer;
+export const { setAuthData, setAuthChecked, logout } = userSlice.actions;
+export default userSlice.reducer;
