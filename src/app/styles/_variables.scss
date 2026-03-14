@@ -14,6 +14,12 @@ $additional-accent: #ef3535;
 
 $primary-bg: linear-gradient(to left, $primary-white 0%, $primary-light 100%);
 
+$secondary-bg-wide: linear-gradient(
+  to right,
+  $secondary-light 60%,
+  $secondary-primary 100%
+);
+
 $secondary-bg: linear-gradient(
   to right,
   $secondary-light 2%,

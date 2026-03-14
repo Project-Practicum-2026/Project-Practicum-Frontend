@@ -2,7 +2,7 @@ import type { FC, PropsWithChildren } from "react";
 import styles from "./Button.module.scss";
 
 interface IButtonProps {
-  variant?: "primary" | "success" | "danger";
+  variant?: "primary" | "success" | "danger" | "default";
   type?: "button" | "submit";
   onClick?: () => void;
   className?: string; // Щоб можна було додавати відступи ззовні
@@ -10,12 +10,16 @@ interface IButtonProps {
 
 const Button: FC<PropsWithChildren<IButtonProps>> = ({
   children,
-  variant = "primary", // Значення за замовчуванням
+  variant = "default", // Значення за замовчуванням
   onClick,
   className = "",
 }) => {
-  // Формуємо рядок з класами. Завжди є базовий .button, і додається модифікатор
-  const buttonClass = `${styles.button} ${styles[`button--${variant}`]} ${className}`;
+  // Якщо варіант 'default', не додаємо жодного додаткового класу-модифікатора
+  const modifierClass =
+    variant !== "default" ? styles[`button--${variant}`] : "";
+
+  // Збираємо фінальний рядок з класами
+  const buttonClass = `${styles.button} ${modifierClass} ${className}`.trim();
 
   return (
     <button className={buttonClass} onClick={onClick}>

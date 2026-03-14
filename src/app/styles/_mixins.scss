@@ -3,11 +3,13 @@
 @mixin base-heading {
   font-family: $font-heading;
   font-weight: 700;
+  color: $primary-black;
 }
 
 @mixin base-body {
   font-family: $font-body;
   line-height: 1.31;
+  color: $primary-black;
 }
 
 // Mixins for Typography (Responsive)
@@ -16,13 +18,13 @@
 
 @mixin text-header-1 {
   @include base-heading;
-  font-size: 7.25rem; // 116px
+  font-size: 3.625rem; // 58px
   line-height: 1.1;
-  letter-spacing: -0.05em;
+  letter-spacing: -0.01em;
 
   @media (max-width: $mobile) {
-    font-size: $size-xl;
-    line-height: 0.8;
+    font-size: $size-xxl;
+    line-height: 1;
   }
 }
 

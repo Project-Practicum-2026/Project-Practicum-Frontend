@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+body {
+  background-image: $primary-bg;
+}
+
 main {
-  background-image: $secondary-bg;
+  background-image: $secondary-bg-wide;
 }

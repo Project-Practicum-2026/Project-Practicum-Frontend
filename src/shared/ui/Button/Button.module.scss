@@ -19,12 +19,13 @@
 
   // Анімація для плавного ховеру
   transition:
-    filter 0.2s ease,
-    transform 0.1s ease;
+    transform 0.1s ease,
+    color 0.2s ease,
+    background-color 0.2s ease;
 
-  // універсальний ховер
   &:hover {
     color: $primary-white;
+    background-color: darken($secondary-accent, 60%);
   }
 
   // Ефект натискання (кнопка трохи просідає)
