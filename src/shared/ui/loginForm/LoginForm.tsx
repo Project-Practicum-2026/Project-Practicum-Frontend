@@ -28,12 +28,12 @@ const LoginForm = () => {
 
   const onSubmit: SubmitHandler<ILoginForm> = async (data) => {
     try {
-      const { accessToken, refreshToken } = await loginUser({ email: data.email, password: data.password });
+      const { accessToken, refreshToken, role } = await loginUser({ email: data.email, password: data.password });
 
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
 
-      dispatch(setAuthData({ accessToken }));
+      dispatch(setAuthData({ accessToken, role }));
 
       navigate(ROUTES.ROOT);
     } catch (error) {

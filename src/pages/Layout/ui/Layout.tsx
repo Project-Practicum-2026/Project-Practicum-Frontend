@@ -5,18 +5,26 @@ import Header from "../../../widgets/Header/Header";
 import { useCustomDispatch } from "../../../store/hooks";
 import { useEffect } from "react";
 import { setAuthChecked, setAuthData } from "../../../store/userSlice";
+import { getUserInfo } from "../../../shared/api";
 
 const Layout = () => {
   const dispatch = useCustomDispatch();
 
   useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken");
+    const initAuth = async () => {
+      const accessToken = localStorage.getItem("accessToken");
 
-    if (accessToken) {
-      dispatch(setAuthData({ accessToken }));
-    }
-
-    dispatch(setAuthChecked(true));
+      if (accessToken) {
+        try {
+          const user = await getUserInfo();
+          dispatch(setAuthData({ accessToken, role: user.role }));
+        } catch (error) {
+          console.error("Failed to initialize auth:", error);
+        }
+      }
+      dispatch(setAuthChecked(true));
+    };
+    initAuth();
   }, [dispatch]);
 
   return (

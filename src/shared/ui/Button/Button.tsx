@@ -7,7 +7,8 @@ interface IButtonProps {
   variant?: EButtonVariants;
   type?: EButtonTypes;
   onClick?: () => void;
-  className?: string; // Щоб можна було додавати відступи ззовні
+  className?: string;
+  disabled?: boolean;
 }
 
 const Button: FC<PropsWithChildren<IButtonProps>> = ({
@@ -15,14 +16,16 @@ const Button: FC<PropsWithChildren<IButtonProps>> = ({
   variant = EButtonVariants.PRIMARY, // Значення за замовчуванням
   onClick,
   className = "",
+  disabled = false,
 }) => {
   // Формуємо рядок з класами. Завжди є базовий .button, і додається модифікатор
-  const buttonClass = `${styles.button} ${styles[`button--${variant}`]} ${className}`;
+  const buttonClass = `${styles.button} ${styles[`button--${variant}`]} ${disabled && styles["button--disabled"]} ${className}`;
 
   return (
     <button
       className={buttonClass}
-      onClick={onClick}>
+      onClick={onClick}
+      disabled={disabled}>
       {children}
     </button>
   );

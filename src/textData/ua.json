@@ -16,7 +16,8 @@
   "nav": {
     "home": "Головна",
     "about": "Про нас",
-    "login": "Авторизація"
+    "login": "Авторизація",
+    "logout": "Вихід"
   },
   "company": {
     "name": "LogicGlobal",
@@ -33,5 +34,6 @@
       { "days": "НЕДІЛЯ", "hours": "8:00 - 13:00" },
       { "days": "СВЯТА", "hours": "8:00 - 16:00" }
     ]
-  }
+  },
+  "loading": "Loading..."
 }
