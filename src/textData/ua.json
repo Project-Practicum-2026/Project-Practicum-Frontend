@@ -3,8 +3,10 @@
     "email": "Email",
     "password": "Пароль",
     "login": "Увійти",
-    "rememberMe": "Запам'ятати мене",
-    "forgotPassword": "Забули свій пароль?"
+    "placeholders": {
+      "email": "email@example.com",
+      "password": "password"
+    }
   },
   "error": {
     "required": "This field is required"
@@ -12,7 +14,8 @@
   "nav": {
     "home": "Головна",
     "about": "Про нас",
-    "login": "Авторизація"
+    "login": "Авторизація",
+    "logout": "Вихід"
   },
   "company": {
     "name": "LogicGlobal",
@@ -30,6 +33,7 @@
       { "days": "СВЯТА", "hours": "8:00 - 16:00" }
     ]
   },
+  "loading": "Loading...",
   "homePage": {
     "hero": {
       "title": "ЛОГІСТИКА,\nЩО РУХАЄ БІЗНЕС УПЕРЕД",

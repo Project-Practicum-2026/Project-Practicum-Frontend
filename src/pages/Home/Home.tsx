@@ -1,7 +1,9 @@
 import LoginForm from "../../shared/ui/loginForm/LoginForm";
 import { useNavigate } from "react-router";
+import { ROUTES } from "../../shared/config/routes";
 import textData from "../../textData/ua.json";
 import Button from "../../shared/ui/Button/Button";
+import { EButtonVariants } from "../../shared/types/button.types";
 import styles from "./Home.module.scss";
 
 const Home = () => {
@@ -30,7 +32,10 @@ const Home = () => {
             {textData.homePage.hero.description}
           </p>
 
-          <Button variant="default" onClick={() => navigate("/about")}>
+          <Button
+            variant={EButtonVariants.DEFAULT}
+            onClick={() => navigate(ROUTES.ABOUT)}
+          >
             {textData.homePage.hero.button}
           </Button>
         </div>

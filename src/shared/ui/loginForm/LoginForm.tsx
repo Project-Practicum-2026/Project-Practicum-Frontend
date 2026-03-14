@@ -2,6 +2,13 @@ import { useForm } from "react-hook-form";
 import type { SubmitHandler } from "react-hook-form";
 import textData from "../../../textData/ua.json";
 import styles from "./LoginForm.module.scss";
+import { loginUser } from "../../api";
+import Button from "../Button/Button";
+import { EButtonTypes } from "../../types/button.types";
+import { useCustomDispatch } from "../../../store/hooks";
+import { setAuthData } from "../../../store/userSlice";
+import { useNavigate } from "react-router";
+import { ROUTES } from "../../config/routes";
 
 interface ILoginForm {
   email: string;
@@ -15,7 +22,24 @@ const LoginForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<ILoginForm>();
-  const onSubmit: SubmitHandler<ILoginForm> = (data) => console.log(data);
+
+  const dispatch = useCustomDispatch();
+  const navigate = useNavigate();
+
+  const onSubmit: SubmitHandler<ILoginForm> = async (data) => {
+    try {
+      const { accessToken, refreshToken, role } = await loginUser({ email: data.email, password: data.password });
+
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
+
+      dispatch(setAuthData({ accessToken, role }));
+
+      navigate(ROUTES.ROOT);
+    } catch (error) {
+      console.error("login error:", error);
+    }
+  };
 
   return (
     <form
@@ -23,26 +47,24 @@ const LoginForm = () => {
       className={styles["form"]}>
       <div className={styles["form__row"]}>
         <label htmlFor="email">{textData.login.email}</label>
-        <input {...register("email", { required: true })} />
-        {errors.email && <span>{textData.error.required}</span>}
+        <input
+          className={errors.email && styles["form__error"]}
+          placeholder={textData.login.placeholders.email}
+          {...register("email", { required: true })}
+        />
+        {errors.email && <span className={styles["form__error"]}>{textData.error.required}</span>}
       </div>
       <div className={styles["form__row"]}>
         <label htmlFor="password">{textData.login.password}</label>
         <input
+          className={errors.password && styles["form__error"]}
+          placeholder={textData.login.placeholders.password}
           type="password"
           {...register("password", { required: true })}
         />
-        {errors.password && <span>{textData.error.required}</span>}
+        {errors.password && <span className={styles["form__error"]}>{textData.error.required}</span>}
       </div>
-      <div className={styles["form__checkbox-row"]}>
-        <input
-          type="checkbox"
-          id="rememberMe"
-          {...register("rememberMe")}
-        />
-        <label htmlFor="rememberMe">{textData.login.rememberMe}</label>
-      </div>
-      <button type="submit">{textData.login.login}</button>
+      <Button type={EButtonTypes.SUBMIT}>{textData.login.login}</Button>
     </form>
   );
 };
