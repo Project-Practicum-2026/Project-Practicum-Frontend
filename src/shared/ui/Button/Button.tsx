@@ -13,19 +13,21 @@ interface IButtonProps {
 
 const Button: FC<PropsWithChildren<IButtonProps>> = ({
   children,
-  variant = EButtonVariants.PRIMARY, // Значення за замовчуванням
+  variant = EButtonVariants.DEFAULT, // Значення за замовчуванням
   onClick,
   className = "",
   disabled = false,
 }) => {
-  // Формуємо рядок з класами. Завжди є базовий .button, і додається модифікатор
-  const buttonClass = `${styles.button} ${styles[`button--${variant}`]} ${disabled && styles["button--disabled"]} ${className}`;
+  // Якщо варіант 'default', не додаємо жодного додаткового класу-модифікатора
+  const modifierClass =
+    variant !== EButtonVariants.DEFAULT ? styles[`button--${variant}`] : "";
+
+  // Збираємо фінальний рядок з класами
+  const buttonClass =
+    `${styles.button} ${modifierClass} ${disabled && styles["button--disabled"]} ${className}`.trim();
 
   return (
-    <button
-      className={buttonClass}
-      onClick={onClick}
-      disabled={disabled}>
+    <button className={buttonClass} onClick={onClick} disabled={disabled}>
       {children}
     </button>
   );
