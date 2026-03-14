@@ -2,8 +2,7 @@ import axios from "axios";
 import { store } from "../../store/store";
 import { setAuthData, logout } from "../../store/userSlice";
 import { API_BASE_URL } from "../config/config";
-import { REFRESH_URL } from "./apiUrls";
-
+import { refreshToken as refreshTokenFn } from "./index";
 export const api = axios.create({
   baseURL: API_BASE_URL, // Укажите URL вашего бэкенда
 });
@@ -34,12 +33,11 @@ api.interceptors.response.use(
         }
 
         // ВАЖНО: Запрос через обычный axios, чтобы не попасть в бесконечный цикл интерсепторов
-        const response = await axios.post(REFRESH_URL, {
-          refreshToken,
-        });
+        const response = await refreshTokenFn(refreshToken);
 
-        const newAccessToken = response.data.accessToken;
-        const newRefreshToken = response.data.refreshToken;
+        const newAccessToken = response.accessToken;
+        const newRefreshToken = response.refreshToken;
+        const role = response.role;
 
         // Сохраняем "бэкап" в localStorage
         localStorage.setItem("accessToken", newAccessToken);
@@ -48,7 +46,7 @@ api.interceptors.response.use(
         }
 
         // Обновляем текущее состояние в Redux
-        store.dispatch(setAuthData({ accessToken: newAccessToken }));
+        store.dispatch(setAuthData({ accessToken: newAccessToken, role: role }));
 
         // Повторяем упавший запрос с новым токеном
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
