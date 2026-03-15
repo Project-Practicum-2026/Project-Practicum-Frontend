@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router";
 import Layout from "./pages/Layout/main/Layout";
 import Login from "./pages/Login/Login";
+import Home from "./pages/Home/Home";
 import { ROUTES } from "./shared/config/routes";
 import { RoleRoute } from "./app/providers/RoleRoute";
 import { ERoles } from "./shared/api/types/auth/types";
@@ -19,7 +20,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <div>Home</div>,
+        element: <Home />,
       },
       {
         path: ROUTES.LOGIN,

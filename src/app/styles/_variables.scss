@@ -19,6 +19,10 @@ $secondary-bg: linear-gradient(to right,
         $secondary-light 2%,
         $secondary-primary 100%);
 
+$secondary-bg-wide: linear-gradient(to right,
+        $secondary-light 40%,
+        $secondary-primary 100%);
+
 // FONTS
 
 $font-heading: "PT Sans Caption", sans-serif;
