@@ -1,0 +1,12 @@
+.stats {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
+    &__list {
+        display: flex;
+        gap: 4px;
+        width: 50%;
+    }
+
+}

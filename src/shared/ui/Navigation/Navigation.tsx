@@ -18,18 +18,14 @@ const Navigation = () => {
     if (!isAuthChecked) return;
 
     if (isAuth) {
-      dispatch(logout()); // Экшен сам очистит localStorage
+      dispatch(logout());
       navigate(ROUTES.LOGIN);
     } else {
       navigate(ROUTES.LOGIN);
     }
   };
 
-  const buttonText = !isAuthChecked
-    ? textData.loading // Или textData.nav.loading, чтобы избежать прыжков верстки
-    : isAuth
-      ? textData.nav.logout
-      : textData.nav.login;
+  const buttonText = !isAuthChecked ? textData.loading : isAuth ? textData.nav.logout : textData.nav.login;
 
   return (
     <nav className={styles.nav}>
@@ -54,7 +50,6 @@ const Navigation = () => {
           <Button
             variant={EButtonVariants.PRIMARY}
             onClick={handleAuthAction}
-            // 3. Блокируем кнопку, пока проверяется токен
             disabled={!isAuthChecked}>
             {buttonText}
           </Button>

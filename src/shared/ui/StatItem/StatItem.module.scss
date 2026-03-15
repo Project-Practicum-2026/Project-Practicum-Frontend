@@ -1,0 +1,32 @@
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    border-radius: 6px;
+    overflow: hidden;
+    font-family: sans-serif;
+    flex: 1;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+
+    &__header {
+        background-color: $primary-accent;
+        color: $primary-white;
+        padding: 12px 8px;
+        font-size: 11px;
+        font-weight: bold;
+        text-align: center;
+        text-transform: uppercase;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 40px;
+    }
+
+    &__body {
+        background-color: $secondary-light;
+        color: $primary-accent;
+        padding: 16px;
+        font-size: 16px;
+        font-weight: bold;
+        text-align: center;
+    }
+}

@@ -35,5 +35,27 @@
       { "days": "СВЯТА", "hours": "8:00 - 16:00" }
     ]
   },
-  "loading": "Loading..."
+  "loading": "Loading...",
+  "managerDashboard": {
+    "title": "Завантаженість парку технічних засобів",
+    "table": {
+      "title": "Активні рейси",
+      "headers": {
+        "id": "ID Рейсу",
+        "name": "Назва",
+        "status": "Статус",
+        "location": "Розташування",
+        "driver": "Водій",
+        "dispatch": "Відправлення",
+        "arrival": "Прибуття",
+        "route": "Маршрут",
+        "gps": "GPS"
+      },
+      "statuses": {
+        "inProgress": "В роботі",
+        "waiting": "Очікує",
+        "arrived": "Прибув"
+      }
+    }
+  }
 }

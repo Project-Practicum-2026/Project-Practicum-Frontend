@@ -9,6 +9,7 @@ import { useCustomDispatch } from "../../../store/hooks";
 import { setAuthData } from "../../../store/userSlice";
 import { useNavigate } from "react-router";
 import { ROUTES } from "../../config/routes";
+import { ERoles } from "../../api/types/auth/types";
 
 interface ILoginForm {
   email: string;
@@ -35,7 +36,14 @@ const LoginForm = () => {
 
       dispatch(setAuthData({ accessToken, role }));
 
-      navigate(ROUTES.ROOT);
+      switch (role) {
+        case ERoles.MANAGER:
+          navigate(ROUTES.MANAGER_DASHBOARD);
+          break;
+        case ERoles.DRIVER:
+          navigate(ROUTES.HOME); // change to driver's page
+          break;
+      }
     } catch (error) {
       console.error("login error:", error);
     }
