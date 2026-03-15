@@ -12,6 +12,15 @@ const ManagerLayout = () => {
           <li>
             <Link to={ROUTES.MANAGER_DRIVERS}>Drivers</Link>
           </li>
+          <li>
+            <Link to={ROUTES.MANAGER_MANAGERS}>Managers</Link>
+          </li>
+          <li>
+            <Link to={ROUTES.MANAGER_TRANSPORT}>Transport</Link>
+          </li>
+          <li>
+            <Link to={ROUTES.MANAGER_WAREHOUSES}>Warehouses</Link>
+          </li>
         </ul>
       </nav>
       <Outlet />

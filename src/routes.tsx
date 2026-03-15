@@ -8,6 +8,9 @@ import { ProtectedRoute } from "./app/providers/ProtectedRoute";
 import Dashboard from "./pages/Manager/Dashboard/Dashboard";
 import Drivers from "./pages/Manager/Drivers/Dirvers";
 import ManagerLayout from "./pages/Layout/manager/ManagerLayout";
+import Managers from "./pages/Manager/Managers/Managers";
+import Transport from "./pages/Manager/Transport/Transport";
+import Warehouse from "./pages/Manager/Warehouses/Warehouses";
 
 const router = createBrowserRouter([
   {
@@ -38,6 +41,18 @@ const router = createBrowserRouter([
                   {
                     path: ROUTES.MANAGER_DRIVERS,
                     element: <Drivers />,
+                  },
+                  {
+                    path: ROUTES.MANAGER_MANAGERS,
+                    element: <Managers />,
+                  },
+                  {
+                    path: ROUTES.MANAGER_TRANSPORT,
+                    element: <Transport />,
+                  },
+                  {
+                    path: ROUTES.MANAGER_WAREHOUSES,
+                    element: <Warehouse />,
                   },
                 ],
               },

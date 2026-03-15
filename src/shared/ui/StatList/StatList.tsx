@@ -11,7 +11,7 @@ interface IStatList {
 const StatList: FC<IStatList> = ({ data }) => {
   return (
     <div className={styles["stats"]}>
-      <h1>{textData.managerDashboard.title}</h1>
+      <h1>{textData.manager.dashboard.title}</h1>
       <div className={styles["stats__list"]}>
         {data.map((stat) => (
           <StatItem

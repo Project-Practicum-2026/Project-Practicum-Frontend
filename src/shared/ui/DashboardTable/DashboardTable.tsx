@@ -17,22 +17,22 @@ interface ITrip {
 const DashboardTable: FC<{ data: ITrip[] }> = ({ data }) => {
   return (
     <div className={styles["active-trips"]}>
-      <h1 className={styles["active-trips__title"]}>{textData.managerDashboard.table.title}</h1>
+      <h1 className={styles["active-trips__title"]}>{textData.manager.dashboard.table.title}</h1>
 
       <div className={styles["active-trips__wrapper"]}>
         <table className={styles["active-trips__table"]}>
           <thead>
             <tr>
-              <th className={styles["active-trips__head-cell"]}>{textData.managerDashboard.table.headers.id}</th>
-              <th className={styles["active-trips__head-cell"]}>{textData.managerDashboard.table.headers.driver}</th>
-              <th className={styles["active-trips__head-cell"]}>{textData.managerDashboard.table.headers.status}</th>
-              <th className={styles["active-trips__head-cell"]}>{textData.managerDashboard.table.headers.dispatch}</th>
-              <th className={styles["active-trips__head-cell"]}>{textData.managerDashboard.table.headers.arrival}</th>
+              <th className={styles["active-trips__head-cell"]}>{textData.manager.dashboard.table.headers.id}</th>
+              <th className={styles["active-trips__head-cell"]}>{textData.manager.dashboard.table.headers.driver}</th>
+              <th className={styles["active-trips__head-cell"]}>{textData.manager.dashboard.table.headers.status}</th>
+              <th className={styles["active-trips__head-cell"]}>{textData.manager.dashboard.table.headers.dispatch}</th>
+              <th className={styles["active-trips__head-cell"]}>{textData.manager.dashboard.table.headers.arrival}</th>
               <th className={`${styles["active-trips__head-cell"]} ${styles["active-trips__head-cell--center"]}`}>
-                {textData.managerDashboard.table.headers.route}
+                {textData.manager.dashboard.table.headers.route}
               </th>
               <th className={`${styles["active-trips__head-cell"]} ${styles["active-trips__head-cell--center"]}`}>
-                {textData.managerDashboard.table.headers.gps}
+                {textData.manager.dashboard.table.headers.gps}
               </th>
             </tr>
           </thead>

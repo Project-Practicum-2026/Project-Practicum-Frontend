@@ -1,4 +1,10 @@
 {
+  "buttons": {
+    "addDriver": "Додайте водія"
+  },
+  "placeholders": {
+    "fullName": "Бандера Степан Андрійович"
+  },
   "login": {
     "email": "Email",
     "password": "Пароль",
@@ -11,7 +17,8 @@
     }
   },
   "error": {
-    "required": "This field is required"
+    "required": "This field is required",
+    "invalidField": "Поле заповнено некоректно"
   },
   "nav": {
     "home": "Головна",
@@ -36,25 +43,30 @@
     ]
   },
   "loading": "Loading...",
-  "managerDashboard": {
-    "title": "Завантаженість парку технічних засобів",
-    "table": {
-      "title": "Активні рейси",
-      "headers": {
-        "id": "ID Рейсу",
-        "name": "Назва",
-        "status": "Статус",
-        "location": "Розташування",
-        "driver": "Водій",
-        "dispatch": "Відправлення",
-        "arrival": "Прибуття",
-        "route": "Маршрут",
-        "gps": "GPS"
+  "manager": {
+    "dashboard": {
+      "title": "Завантаженість парку технічних засобів",
+      "table": {
+        "title": "Активні рейси",
+        "headers": {
+          "id": "ID Рейсу",
+          "name": "Назва",
+          "status": "Статус",
+          "location": "Розташування",
+          "driver": "Водій",
+          "dispatch": "Відправлення",
+          "arrival": "Прибуття",
+          "route": "Маршрут",
+          "gps": "GPS"
+        },
+        "statuses": {
+          "inProgress": "В роботі",
+          "waiting": "Очікує",
+          "arrived": "Прибув"
+        }
       },
-      "statuses": {
-        "inProgress": "В роботі",
-        "waiting": "Очікує",
-        "arrived": "Прибув"
+      "drivers": {
+        "title": "Додати водія до системи"
       }
     }
   }
