@@ -1,0 +1,103 @@
+.universal-table {
+    width: 100%;
+    font-family: sans-serif;
+    margin-bottom: 40px;
+
+    &__header-title {
+        font-size: 24px;
+        font-weight: bold;
+        text-transform: uppercase;
+        margin-bottom: 16px;
+    }
+
+    &__table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #fff;
+    }
+
+    &__th {
+        padding: 12px 16px;
+        border: 1px solid #4db8ff;
+        text-align: left;
+        font-size: 14px;
+        text-transform: uppercase;
+    }
+
+    &__td {
+        padding: 12px 16px;
+        border: 1px solid #4db8ff;
+        vertical-align: middle;
+        font-size: 14px;
+
+        /* Модифікатор для комірки з кнопками: без рамок і тла */
+        &--actions {
+            border: none;
+            background-color: transparent;
+            padding-left: 12px;
+            padding-right: 0;
+            vertical-align: middle;
+            width: 1%;
+            /* Щоб комірка займала мінімум місця */
+        }
+    }
+
+    &__actions {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        /* Той самий відступ між кнопками */
+    }
+
+    &__inline-input,
+    &__inline-select {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #4db8ff;
+        border-radius: 4px;
+        font-size: 14px;
+        font-family: inherit;
+        box-sizing: border-box;
+
+        &:focus {
+            outline: none;
+            border-color: #31a4df;
+            box-shadow: 0 0 0 2px rgba(77, 184, 255, 0.2);
+        }
+    }
+
+    &__btn--save {
+        background-color: #4db8ff;
+        /* Синій для збереження */
+    }
+
+    &__btn--cancel {
+        background-color: #a0a0a0;
+        /* Сірий для скасування */
+    }
+
+    &__btn {
+        padding: 8px 12px;
+        border: none;
+        border-radius: 4px;
+        color: white;
+        font-size: 12px;
+        font-weight: bold;
+        cursor: pointer;
+        text-transform: uppercase;
+        white-space: nowrap;
+        transition: opacity 0.2s;
+
+        &:hover {
+            opacity: 0.8;
+        }
+
+        &--edit {
+            background-color: #42df8e;
+        }
+
+        &--delete {
+            background-color: #ff4d6d;
+        }
+    }
+}
