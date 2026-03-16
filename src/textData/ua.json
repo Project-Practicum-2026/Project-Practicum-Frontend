@@ -22,7 +22,9 @@
     "home": "Головна",
     "about": "Про нас",
     "login": "Авторизація",
-    "logout": "Вихід"
+    "logout": "Вихід",
+    "driver": "Водій",
+    "cabinet": "Кабінет"
   },
   "company": {
     "name": "LogicGlobal",

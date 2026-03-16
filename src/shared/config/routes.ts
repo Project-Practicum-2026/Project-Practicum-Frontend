@@ -8,4 +8,5 @@ export const ROUTES = {
   MANAGER_MANAGERS: "/manager-dashboard/managers",
   MANAGER_TRANSPORT: "/manager-dashboard/transport",
   MANAGER_WAREHOUSES: "/manager-dashboard/warehouses",
+  DRIVER: "/driver",
 } as const;

@@ -6,6 +6,7 @@ import { EButtonVariants } from "../../types/button.types";
 import { ROUTES } from "../../config/routes";
 import { useCustomDispatch, useCustomSelector } from "../../../store/hooks";
 import { logout } from "../../../store/userSlice";
+import { ERoles } from "../../api/types/auth/types";
 
 const Navigation = () => {
   const navigate = useNavigate();
@@ -13,6 +14,19 @@ const Navigation = () => {
 
   const isAuthChecked = useCustomSelector((state) => state.user.isAuthChecked);
   const isAuth = useCustomSelector((state) => state.user.isAuth);
+  const role = useCustomSelector((state) => state.user.role);
+
+  let navigateTo;
+  switch (role) {
+    case ERoles.MANAGER:
+      navigateTo = ROUTES.MANAGER_DASHBOARD;
+      break;
+    case ERoles.DRIVER:
+      navigateTo = ROUTES.DRIVER;
+      break;
+    default:
+      navigateTo = ROUTES.MANAGER_DASHBOARD;
+  }
 
   const handleAuthAction = () => {
     if (!isAuthChecked) return;
@@ -43,6 +57,13 @@ const Navigation = () => {
             to={ROUTES.ABOUT}
             className={styles.nav__link}>
             {textData.nav.about}
+          </NavLink>
+        </li>
+        <li className={styles.nav__item}>
+          <NavLink
+            to={navigateTo}
+            className={styles.nav__link}>
+            {textData.nav.cabinet}
           </NavLink>
         </li>
 

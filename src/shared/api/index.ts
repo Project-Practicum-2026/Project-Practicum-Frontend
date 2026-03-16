@@ -1,7 +1,8 @@
 import axios from "axios";
 import { api } from "./api";
-import { GET_USER_URL, LOGIN_URL, REFRESH_URL, REGISTER_URL } from "./apiUrls";
+import { GET_TRIPS_URL, GET_USER_URL, LOGIN_URL, REFRESH_URL, REGISTER_URL } from "./apiUrls";
 import type { ILoginData, IRegisterData, IAuthResponse, IUserInfo } from "./types/auth/types";
+import type { IRouteTask } from "./types/routes/types";
 
 export const registerUser = async (data: IRegisterData) => {
   const response = await api.post<IAuthResponse>(REGISTER_URL, data);
@@ -42,4 +43,9 @@ export const refreshToken = async (refreshToken: string) => {
     refreshToken: response.data.refresh_token,
     role: response.data.role,
   };
+};
+
+export const getTrips = async () => {
+  const response = await api.get<IRouteTask[]>(GET_TRIPS_URL);
+  return response.data;
 };

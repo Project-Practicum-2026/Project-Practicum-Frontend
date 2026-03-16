@@ -41,7 +41,7 @@ const LoginForm = () => {
           navigate(ROUTES.MANAGER_DASHBOARD);
           break;
         case ERoles.DRIVER:
-          navigate(ROUTES.HOME); // change to driver's page
+          navigate(ROUTES.HOME);
           break;
       }
     } catch (error) {
