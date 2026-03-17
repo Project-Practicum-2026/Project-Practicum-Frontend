@@ -1,0 +1,32 @@
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 2.5rem 0 1rem;
+
+  // Перевизначаємо стилі, якщо є модифікатор --cabinet
+  &--cabinet {
+    padding: 1rem 0;
+
+    .title {
+      color: #0279c1;
+    }
+
+    .accent {
+      color: #00a153;
+    }
+  }
+}
+
+// Дефолтні стилі (працюють усюди, де немає модифікатора --cabinet)
+.title {
+  @include text-header-2;
+  text-align: center;
+  white-space: pre-line;
+  color: $primary-black;
+  margin: 0;
+}
+
+.accent {
+  color: $primary-accent;
+}

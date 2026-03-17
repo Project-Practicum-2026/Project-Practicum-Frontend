@@ -1,6 +1,3 @@
-@import "/src/app/styles/variables.scss";
-@import "/src/app/styles/mixins.scss";
-
 .hero {
   display: flex;
   width: 100%;
@@ -54,7 +51,7 @@
   display: flex;
   flex-direction: column;
   width: 80%;
-  margin: $size-3xl auto; // Центрує весь блок по горизонталі + відступи зверху і знизу
+  margin: $size-xxl auto; // Центрує весь блок по горизонталі + відступи зверху і знизу
   align-items: center;
   gap: $size-xl;
 
@@ -71,15 +68,15 @@
     white-space: pre-line; // Змушує CSS враховувати символ \n з JSON
   }
 
-  &__text {
-    @include text-header-2;
-    white-space: pre-line;
-    color: $primary-black;
-  }
+  //   &__text {
+  //     @include text-header-2;
+  //     white-space: pre-line;
+  //     color: $primary-black;
+  //   }
 
-  &__text-accent {
-    color: $primary-accent;
-  }
+  //   &__text-accent {
+  //     color: $primary-accent;
+  //   }
 
   &__image-wrapper {
     width: 100%;
