@@ -1,0 +1,78 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.cabinet-head {
+  padding-top: 1rem;
+
+  // Твоє базове легке затемнення (заллє весь блок)
+  background-color: rgba(20, 107, 20, 0.1);
+
+  // Біле світіння, яке накладається зверху
+  background-image: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.6) 0%,
+    rgba(7, 83, 7, 0.1) 70%
+  );
+
+  // розмиває все, що знаходиться ПІД цим блоком (ефект скла)
+  backdrop-filter: blur(6px);
+}
+
+.nav {
+  width: 100%;
+  padding: 0.8rem $size-lg;
+}
+
+.menu {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  border-bottom: 3px solid $primary-accent;
+  border-radius: 8px 8px 0 0; // Заокруглюємо тільки ВЕРХНІ кути всієї панелі
+  overflow: hidden; // зрізає кути у крайніх кнопок, щоб вони не вилазили за радіус контейнера
+}
+
+.menu-item {
+  flex: 1;
+  border-right: 1px solid color.adjust($primary-light, $lightness: -5%); // розділювач між плашками
+
+  &:last-child {
+    border-right: none;
+  }
+}
+
+.menu-link {
+  @include text-links-button;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%; // плашка розтягнеться по висоті, якщо десь тексту буде на 2 рядки
+  padding: $size-md;
+  background-color: $primary-white;
+  color: $primary-black;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: color.adjust($primary-light, $lightness: +6%);
+  }
+
+  &--active {
+    background-color: $primary-accent;
+    color: $primary-white;
+
+    &:hover {
+      background-color: $primary-accent;
+    }
+  }
+}

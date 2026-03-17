@@ -1,28 +1,27 @@
-
 .driver {
-    max-width: 480px;
-    margin: 0 auto;
-    min-height: 60vh;
-    padding: 0 $size-md;
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 60vh;
+  padding: 0 $size-md;
 
-    &__header {
-        font-family: $font-heading;
-        font-size: 1.1rem;
-        font-weight: 700;
-        padding: $size-md 0;
-        border-bottom: 2px solid $primary-accent;
-        margin-bottom: $size-lg;
-    }
+  &__header {
+    font-family: $font-heading;
+    font-size: 1.1rem;
+    font-weight: 700;
+    padding: $size-md 0;
+    border-bottom: 2px solid $primary-accent;
+    margin-bottom: $size-lg;
+  }
 
-    &__accent {
-        color: $primary-accent;
-    }
+  &__accent {
+    color: $primary-accent;
+  }
 
-    &__label {
-        color: $primary-black;
-    }
+  &__label {
+    color: $primary-black;
+  }
 
-    &__content {
-        padding-bottom: $size-xxl;
-    }
+  &__content {
+    padding-bottom: $size-xxl;
+  }
 }

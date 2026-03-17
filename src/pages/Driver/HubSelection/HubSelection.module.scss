@@ -27,6 +27,7 @@
     color: $primary-black;
     cursor: pointer;
     transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba($primary-black, 0.3);
 
     &:hover {
       border-color: $primary-accent;
