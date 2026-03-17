@@ -10,6 +10,7 @@ import { setAuthData } from "../../../store/userSlice";
 import { useNavigate } from "react-router";
 import { ROUTES } from "../../config/routes";
 import { ERoles } from "../../api/types/auth/types";
+import { useState } from "react";
 
 interface ILoginForm {
   email: string;
@@ -18,6 +19,8 @@ interface ILoginForm {
 }
 
 const LoginForm = () => {
+  const [loading, setLoading] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -29,6 +32,7 @@ const LoginForm = () => {
 
   const onSubmit: SubmitHandler<ILoginForm> = async (data) => {
     try {
+      setLoading(true);
       const { accessToken, refreshToken, role } = await loginUser({ email: data.email, password: data.password });
 
       localStorage.setItem("accessToken", accessToken);
@@ -44,6 +48,7 @@ const LoginForm = () => {
           navigate(ROUTES.DRIVER);
           break;
       }
+      setLoading(false);
     } catch (error) {
       console.error("login error:", error);
     }
@@ -58,6 +63,7 @@ const LoginForm = () => {
         <input
           className={errors.email && styles["form__error"]}
           placeholder={textData.login.placeholders.email}
+          type="email"
           {...register("email", { required: true })}
         />
         {errors.email && <span className={styles["form__error"]}>{textData.error.required}</span>}
@@ -72,7 +78,11 @@ const LoginForm = () => {
         />
         {errors.password && <span className={styles["form__error"]}>{textData.error.required}</span>}
       </div>
-      <Button type={EButtonTypes.SUBMIT}>{textData.login.login}</Button>
+      <Button
+        type={EButtonTypes.SUBMIT}
+        disabled={loading}>
+        {textData.login.login}
+      </Button>
     </form>
   );
 };

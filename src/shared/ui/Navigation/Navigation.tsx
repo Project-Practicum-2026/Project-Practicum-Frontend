@@ -59,13 +59,15 @@ const Navigation = () => {
             {textData.nav.about}
           </NavLink>
         </li>
-        <li className={styles.nav__item}>
-          <NavLink
-            to={navigateTo}
-            className={styles.nav__link}>
-            {textData.nav.cabinet}
-          </NavLink>
-        </li>
+        {isAuth && (
+          <li className={styles.nav__item}>
+            <NavLink
+              to={navigateTo}
+              className={styles.nav__link}>
+              {textData.nav.cabinet}
+            </NavLink>
+          </li>
+        )}
 
         <li className={`${styles["nav__item"]} ${styles["nav__item--action"]}`}>
           <Button
