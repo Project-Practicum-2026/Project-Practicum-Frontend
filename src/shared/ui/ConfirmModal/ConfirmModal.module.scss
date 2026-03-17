@@ -1,0 +1,93 @@
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: $size-md;
+  animation: fadeIn 0.2s ease;
+}
+
+.modal {
+  background: $primary-white;
+  border-radius: 12px;
+  padding: $size-xl;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  animation: slideUp 0.25s ease;
+
+  &__title {
+    font-family: $font-heading;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: $primary-black;
+    margin: 0 0 $size-sm 0;
+  }
+
+  &__message {
+    font-family: $font-body;
+    font-size: 0.95rem;
+    color: #555;
+    margin: 0 0 $size-lg 0;
+    line-height: 1.5;
+  }
+
+  &__actions {
+    display: flex;
+    gap: $size-sm;
+    justify-content: flex-end;
+  }
+
+  &__btn--cancel,
+  &__btn--confirm {
+    padding: $size-sm $size-lg;
+    border: none;
+    border-radius: 8px;
+    font-family: $font-mono;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 600;
+  }
+
+  &__btn--cancel {
+    background: #e8e8e8;
+    color: $primary-black;
+
+    &:hover {
+      background: #d4d4d4;
+    }
+  }
+
+  &__btn--confirm {
+    background: $primary-accent;
+    color: $primary-white;
+
+    &:hover {
+      background: darken(#35bbef, 10%);
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

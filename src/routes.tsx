@@ -12,6 +12,10 @@ import ManagerLayout from "./pages/Layout/manager/ManagerLayout";
 import Managers from "./pages/Manager/Managers/Managers";
 import Transport from "./pages/Manager/Transport/Transport";
 import Warehouse from "./pages/Manager/Warehouses/Warehouses";
+import DriverLayout from "./pages/Layout/driver/DriverLayout";
+import HubSelection from "./pages/Driver/HubSelection/HubSelection";
+import TripSelection from "./pages/Driver/TripSelection/TripSelection";
+import ActiveTrip from "./pages/Driver/ActiveTrip/ActiveTrip";
 
 const router = createBrowserRouter([
   {
@@ -59,6 +63,28 @@ const router = createBrowserRouter([
               },
             ],
           },
+          {
+            element: <RoleRoute allowedRoles={[ERoles.DRIVER]} />,
+            children: [
+              {
+                element: <DriverLayout />,
+                children: [
+                  {
+                    path: ROUTES.DRIVER,
+                    element: <HubSelection />,
+                  },
+                  {
+                    path: ROUTES.DRIVER_TRIP_SELECTION,
+                    element: <TripSelection />,
+                  },
+                  {
+                    path: ROUTES.DRIVER_ACTIVE_TRIP,
+                    element: <ActiveTrip />,
+                  },
+                ],
+              },
+            ],
+          },
         ],
       },
     ],
@@ -70,3 +96,4 @@ const router = createBrowserRouter([
 ]);
 
 export default router;
+

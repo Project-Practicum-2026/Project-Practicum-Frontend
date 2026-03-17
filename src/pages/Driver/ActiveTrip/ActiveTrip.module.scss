@@ -1,0 +1,296 @@
+
+.trip {
+    &__title {
+        font-family: $font-heading;
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: $primary-black;
+        text-align: center;
+        margin-bottom: $size-lg;
+    }
+
+    // Route section
+    &__route {
+        background: $primary-white;
+        border: 2px solid $primary-black;
+        border-radius: 10px;
+        padding: $size-lg;
+        margin-bottom: $size-md;
+    }
+
+    &__routeLabel {
+        font-family: $font-heading;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: #666;
+        text-transform: uppercase;
+        margin-bottom: $size-xs;
+    }
+
+    &__routeAddress {
+        font-family: $font-body;
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: $primary-black;
+        margin-bottom: $size-sm;
+        line-height: 1.4;
+    }
+
+    &__routeProgress {
+        font-family: $font-body;
+        font-size: 0.8rem;
+        color: $primary-accent;
+        font-weight: 500;
+    }
+
+    &__confirmUnload {
+        margin-top: $size-sm;
+        width: 100%;
+        padding: $size-sm $size-md;
+        background: $additional-success;
+        border: none;
+        border-radius: 8px;
+        font-family: $font-heading;
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: $primary-black;
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        &:hover {
+            background: darken(#00e676, 8%);
+        }
+    }
+
+    // Status
+    &__status {
+        text-align: center;
+        margin-bottom: $size-md;
+    }
+
+    &__statusBadge {
+        display: inline-block;
+        padding: $size-xs $size-md;
+        border-radius: 20px;
+        font-family: $font-heading;
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+
+        &--waiting {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        &--loading {
+            background: #cce5ff;
+            color: #004085;
+        }
+
+        &--on_road {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        &--unloading {
+            background: #e2e3ff;
+            color: #383d94;
+        }
+
+        &--finished {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+    }
+
+    // Details accordion
+    &__details {
+        margin-bottom: $size-lg;
+        border: 2px solid #ddd;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    &__detailsToggle {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: $size-md $size-lg;
+        background: $primary-white;
+        border: none;
+        font-family: $font-heading;
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: $primary-black;
+        cursor: pointer;
+        transition: background 0.2s ease;
+
+        &:hover {
+            background: #f8f8f8;
+        }
+
+        &--open {
+            border-bottom: 1px solid #eee;
+        }
+    }
+
+    &__detailsChevron {
+        transition: transform 0.2s ease;
+
+        &--open {
+            transform: rotate(180deg);
+        }
+    }
+
+    &__detailsContent {
+        padding: $size-md $size-lg;
+        background: $primary-white;
+        animation: fadeSlide 0.25s ease;
+    }
+
+    &__detailsRow {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: $size-md;
+
+        strong {
+            font-family: $font-heading;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #666;
+            margin-bottom: 2px;
+        }
+
+        span {
+            font-family: $font-body;
+            font-size: 0.9rem;
+            color: $primary-black;
+            line-height: 1.4;
+        }
+    }
+
+    &__cargo {
+        background: rgba($primary-accent, 0.08);
+        border-radius: 8px;
+        padding: $size-md;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+
+        strong {
+            font-family: $font-heading;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #666;
+        }
+
+        span {
+            font-family: $font-body;
+            font-size: 0.9rem;
+            color: $primary-black;
+        }
+    }
+
+    // Actions
+    &__actions {
+        display: flex;
+        flex-direction: column;
+        gap: $size-sm;
+    }
+
+    &__statusBtn {
+        width: 100%;
+        padding: $size-md;
+        background: $primary-accent;
+        border: none;
+        border-radius: 10px;
+        font-family: $font-heading;
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: $primary-white;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        box-shadow: 0 4px 12px rgba($primary-accent, 0.3);
+        margin-bottom: $size-sm;
+
+        &:hover {
+            background: darken(#35bbef, 8%);
+            box-shadow: 0 6px 16px rgba($primary-accent, 0.4);
+            transform: translateY(-1px);
+        }
+
+        &:active {
+            transform: translateY(0);
+        }
+    }
+
+    &__btn--waybill {
+        width: 100%;
+        padding: $size-sm $size-md;
+        background: $primary-accent;
+        border: none;
+        border-radius: 8px;
+        font-family: $font-heading;
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: $primary-white;
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        &:hover {
+            background: darken(#35bbef, 10%);
+        }
+    }
+
+    &__btn--maps {
+        width: 100%;
+        padding: $size-sm $size-md;
+        background: transparent;
+        border: 2px solid $primary-accent;
+        border-radius: 8px;
+        font-family: $font-heading;
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: $primary-accent;
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        &:hover {
+            background: rgba($primary-accent, 0.08);
+        }
+    }
+
+    &__btn--decline {
+        width: 100%;
+        padding: $size-sm $size-md;
+        background: $additional-accent;
+        border: none;
+        border-radius: 8px;
+        font-family: $font-heading;
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: $primary-white;
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        &:hover {
+            background: darken(#ef3535, 10%);
+        }
+    }
+}
+
+@keyframes fadeSlide {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

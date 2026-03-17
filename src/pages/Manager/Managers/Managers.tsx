@@ -1,6 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import UniversalTable, { type TableColumn } from "../../../shared/ui/UniversalTable/UniversalTable";
 import UniversalForm, { type FormField } from "../../../shared/ui/UniversalForm/UniversalForm";
+import { registerUser } from "../../../shared/api";
+import { ERoles } from "../../../shared/api/types/auth/types";
+import Loader from "../../../shared/ui/Loader/Loader";
 
 const managerColumns: TableColumn<Manager>[] = [
   {
@@ -25,7 +28,7 @@ const managerColumns: TableColumn<Manager>[] = [
 
 const managerFields: FormField[] = [
   {
-    name: "fullName",
+    name: "full_name",
     label: "Прізвище, ім'я, по батькові",
     placeholder: "Швець Ірина Олександрівна",
     rules: {
@@ -71,38 +74,51 @@ export interface Manager {
 }
 
 const Managers = () => {
-  const [managers, setManagers] = useState<Manager[]>([
-    {
-      id: "M34-042413",
-      name: "Шевченко Ігор Миколайович",
-      email: "igorpatriot@gmail.com",
-    },
-    {
-      id: "M67-032453",
-      name: "Шевченко Антон Миколайович",
-      email: "anton@gmail.com",
-    },
-  ]);
+  const [managers, setManagers] = useState<Manager[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSaveEdit = (updatedManager: Manager) => {
-    console.log("Відправляємо оновлені дані менеджера на бекенд:", updatedManager);
-
-    setManagers((prevManagers) => prevManagers.map((m) => (m.id === updatedManager.id ? updatedManager : m)));
+    setManagers((prevManagers) =>
+      prevManagers.map((m) => (m.id === updatedManager.id ? updatedManager : m))
+    );
   };
 
   const handleDelete = (managerToDelete: Manager) => {
     if (window.confirm(`Ви впевнені, що хочете видалити менеджера ${managerToDelete.name}?`)) {
-      console.log("Видалення менеджера з ID:", managerToDelete.id);
-      setManagers((prevManagers) => prevManagers.filter((m) => m.id !== managerToDelete.id));
+      setManagers((prevManagers) =>
+        prevManagers.filter((m) => m.id !== managerToDelete.id)
+      );
     }
   };
 
-  const handleAddManager = (data: Record<string, string>) => {
-    console.log("Дані нового менеджера готові до відправки:", data);
+  const handleAddManager = async (data: Record<string, string>) => {
+    try {
+      setError(null);
+      await registerUser({
+        email: data.email,
+        password: data.password,
+        full_name: data.full_name,
+        role: ERoles.MANAGER,
+      });
+
+      // Add to local list since there's no dedicated managers list endpoint
+      const newManager: Manager = {
+        id: `M${Date.now().toString().slice(-8)}`,
+        name: data.full_name,
+        email: data.email,
+      };
+      setManagers((prev) => [...prev, newManager]);
+    } catch (err) {
+      console.error("Failed to add manager:", err);
+      setError("Не вдалося додати менеджера. Можливо, email вже зайнятий.");
+    }
   };
 
   return (
-    <div style={{ padding: "20px", backgroundColor: "#e6ffe6", minHeight: "100vh" }}>
+    <div style={{ padding: "20px", minHeight: "100vh" }}>
+      {error && <p style={{ color: "red", marginBottom: 16 }}>{error}</p>}
+
       <UniversalTable<Manager>
         title="МЕНЕДЖЕРИ КОМПАНІЇ"
         columns={managerColumns}

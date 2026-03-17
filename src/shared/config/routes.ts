@@ -9,4 +9,7 @@ export const ROUTES = {
   MANAGER_TRANSPORT: "/manager-dashboard/transport",
   MANAGER_WAREHOUSES: "/manager-dashboard/warehouses",
   DRIVER: "/driver",
+  DRIVER_TRIP_SELECTION: "/driver/trips",
+  DRIVER_ACTIVE_TRIP: "/driver/trip/:tripId",
 } as const;
+

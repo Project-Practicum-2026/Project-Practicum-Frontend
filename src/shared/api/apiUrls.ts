@@ -10,3 +10,36 @@ export const GET_USER_URL = `${API_BASE_URL}/auth/me`;
 export const GET_TRIPS_URL = `${API_BASE_URL}/trips`;
 
 export const GET_TRIP_URL = (id: string) => `${API_BASE_URL}/trips/${id}`;
+
+// Driver endpoints
+export const GET_WAREHOUSES_URL = `${API_BASE_URL}/warehouses/`;
+export const GET_AVAILABLE_ROUTES_URL = (warehouseId: string) =>
+  `${API_BASE_URL}/routes/available?warehouses_id=${warehouseId}`;
+export const GET_ROUTE_DETAIL_URL = (routeId: string) =>
+  `${API_BASE_URL}/routes/${routeId}`;
+export const TAKE_ROUTE_URL = (routeId: string) =>
+  `${API_BASE_URL}/routes/${routeId}/take`;
+export const UPDATE_TRIP_STATUS_URL = (tripId: string) =>
+  `${API_BASE_URL}/trips/${tripId}/status`;
+export const GET_TRIP_DETAIL_URL = (tripId: string) =>
+  `${API_BASE_URL}/trips/${tripId}`;
+
+// Manager driver endpoints
+export const GET_DRIVERS_URL = `${API_BASE_URL}/drivers/`;
+export const ADD_DRIVER_URL = `${API_BASE_URL}/drivers/`;
+export const GET_DRIVER_URL = (driverId: string) =>
+  `${API_BASE_URL}/drivers/${driverId}`;
+export const UPDATE_DRIVER_STATUS_URL = (driverId: string) =>
+  `${API_BASE_URL}/drivers/${driverId}/status`;
+
+// Warehouse management
+export const GET_ALL_WAREHOUSES_URL = `${API_BASE_URL}/warehouses/`;
+export const ADD_WAREHOUSE_URL = `${API_BASE_URL}/warehouses/`;
+
+// Fleet/Vehicle management
+export const GET_VEHICLES_URL = `${API_BASE_URL}/fleet/vehicles/`;
+export const ADD_VEHICLE_URL = `${API_BASE_URL}/fleet/vehicles`;
+export const GET_VEHICLE_TYPES_URL = `${API_BASE_URL}/fleet/vehicle-types`;
+export const ADD_VEHICLE_TYPE_URL = `${API_BASE_URL}/fleet/vehicle-types`;
+export const UPDATE_VEHICLE_STATUS_URL = (vehicleId: string) =>
+  `${API_BASE_URL}/fleet/vehicles/${vehicleId}/status`;

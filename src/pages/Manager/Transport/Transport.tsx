@@ -1,13 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import UniversalTable, { type TableColumn } from "../../../shared/ui/UniversalTable/UniversalTable";
 import UniversalForm, { type FormField } from "../../../shared/ui/UniversalForm/UniversalForm";
-import styles from "../../../shared/ui/UniversalTable/UniversalTable.module.scss"; // Для стилів інлайн-селекту
+import styles from "../../../shared/ui/UniversalTable/UniversalTable.module.scss";
+import {
+  getVehicles,
+  addVehicle,
+  getVehicleTypes,
+  updateVehicleStatus,
+} from "../../../shared/api";
+import type { IVehicleResponse, IVehicleTypeResponse } from "../../../shared/api";
+import Loader from "../../../shared/ui/Loader/Loader";
 
-export interface Transport {
+export interface TransportUI {
   id: string;
+  plateNumber: string;
   dimensions: string;
-  status: "В дорозі" | "Очікує завантаження" | "Прибув. Очікує розвантаження" | "Не активний";
-  locationData: string;
+  status: "В дорозі" | "Доступний" | "На обслуговуванні";
+  _backendId: string;
 }
 
 const MapPinIcon = () => (
@@ -21,31 +30,65 @@ const MapPinIcon = () => (
     strokeLinecap="round"
     strokeLinejoin="round">
     <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-    <circle
-      cx="12"
-      cy="10"
-      r="3"></circle>
+    <circle cx="12" cy="10" r="3"></circle>
   </svg>
 );
 
-const Transport = () => {
-  const [vehicles, setVehicles] = useState<Transport[]>([
-    { id: "T34-057413", dimensions: "90 м³, 20 тон", status: "В дорозі", locationData: "hidden" },
-    { id: "T48-028467", dimensions: "45 м³, 10 тон", status: "Очікує завантаження", locationData: "hidden" },
-    { id: "T56-031488", dimensions: "90 м³, 20 тон", status: "Прибув. Очікує розвантаження", locationData: "hidden" },
-    { id: "T86-035888", dimensions: "90 м³, 20 тон", status: "Не активний", locationData: "hidden" },
-    { id: "T12-023487", dimensions: "90 м³, 20 тон", status: "Не активний", locationData: "hidden" },
-  ]);
+const mapVehicleStatus = (status: string): TransportUI["status"] => {
+  switch (status) {
+    case "on_trip":
+      return "В дорозі";
+    case "maintenance":
+      return "На обслуговуванні";
+    default:
+      return "Доступний";
+  }
+};
 
-  const transportColumns: TableColumn<Transport>[] = [
+const mapVehicleToUI = (v: IVehicleResponse): TransportUI => ({
+  id: v.plate_number,
+  plateNumber: v.plate_number,
+  dimensions: `${v.vehicle_type.max_volume_m3} м³, ${v.vehicle_type.max_weight_kg / 1000} тон`,
+  status: mapVehicleStatus(v.status),
+  _backendId: v.id,
+});
+
+const Transport = () => {
+  const [vehicles, setVehicles] = useState<TransportUI[]>([]);
+  const [vehicleTypes, setVehicleTypes] = useState<IVehicleTypeResponse[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchData = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      const [vehiclesData, typesData] = await Promise.all([
+        getVehicles(),
+        getVehicleTypes(),
+      ]);
+      setVehicles(vehiclesData.map(mapVehicleToUI));
+      setVehicleTypes(typesData);
+    } catch (err) {
+      console.error("Failed to fetch vehicles:", err);
+      setError("Не вдалося завантажити список транспорту");
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  const transportColumns: TableColumn<TransportUI>[] = [
     {
-      header: "ID ТЗ",
-      key: "id",
+      header: "НОМЕРНИЙ ЗНАК",
+      key: "plateNumber",
     },
     {
       header: "ГАБАРИТИ",
       key: "dimensions",
-      editable: true,
     },
     {
       header: "СТАТУС",
@@ -56,35 +99,24 @@ const Transport = () => {
           case "В дорозі":
             color = "#ff4d6d";
             break;
-          case "Очікує завантаження":
-            color = "#4db8ff";
-            break;
-          case "Прибув. Очікує розвантаження":
+          case "Доступний":
             color = "#42df8e";
             break;
-          case "Не активний":
+          case "На обслуговуванні":
             color = "#a0a0a0";
             break;
         }
-
-        const statusLines = vehicle.status.split(". ");
-        return (
-          <div style={{ color, display: "flex", flexDirection: "column" }}>
-            {statusLines.map((line, idx) => (
-              <span key={idx}>{line}</span>
-            ))}
-          </div>
-        );
+        return <span style={{ color, fontWeight: 600 }}>{vehicle.status}</span>;
       },
       renderEdit: (value, onChange) => (
         <select
           className={styles["universal-table__inline-select"]}
           value={value as string}
-          onChange={(e) => onChange(e.target.value as Transport["status"])}>
+          onChange={(e) => onChange(e.target.value as TransportUI["status"])}
+        >
           <option value="В дорозі">В дорозі</option>
-          <option value="Очікує завантаження">Очікує завантаження</option>
-          <option value="Прибув. Очікує розвантаження">Прибув. Очікує розвантаження</option>
-          <option value="Не активний">Не активний</option>
+          <option value="Доступний">Доступний</option>
+          <option value="На обслуговуванні">На обслуговуванні</option>
         </select>
       ),
     },
@@ -100,46 +132,72 @@ const Transport = () => {
 
   const addTransportFields: FormField[] = [
     {
-      name: "dimensions",
-      label: "Габарити",
-      placeholder: "45 м³, 10 тон",
-      rules: { required: "Вкажіть габарити ТЗ" },
+      name: "plate_number",
+      label: "Номерний знак",
+      placeholder: "АА 1234 ВВ",
+      rules: { required: "Вкажіть номерний знак" },
     },
     {
-      name: "location",
-      label: "Геолокація",
-      type: "password",
-      placeholder: "••••••••••••••••••",
-      rules: { required: "Додайте дані геолокації" },
+      name: "vehicle_type_id",
+      label: "Тип транспорту (ID)",
+      placeholder: vehicleTypes.length > 0
+        ? `Наприклад: ${vehicleTypes[0].name} (${vehicleTypes[0].id.slice(0, 8)}...)`
+        : "Завантажте типи...",
+      rules: { required: "Вкажіть тип транспорту" },
     },
   ];
 
-  const handleSaveEdit = (updatedVehicle: Transport) => {
-    console.log("Оновлено ТЗ:", updatedVehicle);
-    setVehicles((prev) => prev.map((v) => (v.id === updatedVehicle.id ? updatedVehicle : v)));
+  const handleSaveEdit = (updatedVehicle: TransportUI) => {
+    // Update UI immediately (optimistic update)
+    setVehicles((prev) =>
+      prev.map((v) => (v._backendId === updatedVehicle._backendId ? updatedVehicle : v))
+    );
+
+    // Try to sync status to backend in background
+    const statusMap: Record<string, "available" | "on_trip" | "maintenance"> = {
+      "В дорозі": "on_trip",
+      "Доступний": "available",
+      "На обслуговуванні": "maintenance",
+    };
+    const backendStatus = statusMap[updatedVehicle.status] || "available";
+    updateVehicleStatus(updatedVehicle._backendId, backendStatus).catch((err) => {
+      console.error("Failed to sync vehicle status:", err);
+    });
   };
 
-  const handleDelete = (vehicle: Transport) => {
-    if (window.confirm(`Видалити транспорт ${vehicle.id}?`)) {
-      setVehicles((prev) => prev.filter((v) => v.id !== vehicle.id));
+  const handleDelete = (vehicle: TransportUI) => {
+    if (window.confirm(`Видалити транспорт ${vehicle.plateNumber}?`)) {
+      setVehicles((prev) => prev.filter((v) => v._backendId !== vehicle._backendId));
     }
   };
 
-  const handleAddTransport = (data: Record<string, string>) => {
-    console.log("Дані нового ТЗ для бекенду:", data);
-    const newVehicle: Transport = {
-      id: `T${Math.floor(Math.random() * 90 + 10)}-${Math.floor(Math.random() * 900000 + 100000)}`,
-      dimensions: data.dimensions,
-      status: "Не активний",
-      locationData: data.location,
-    };
-    setVehicles((prev) => [...prev, newVehicle]);
+  const handleAddTransport = async (data: Record<string, string>) => {
+    try {
+      setError(null);
+      await addVehicle({
+        plate_number: data.plate_number,
+        vehicle_type_id: data.vehicle_type_id,
+      });
+      await fetchData();
+    } catch (err) {
+      console.error("Failed to add vehicle:", err);
+      setError("Не вдалося додати ТЗ. Перевірте дані (тип ТЗ має бути валідним UUID).");
+    }
   };
+
+  if (isLoading) {
+    return (
+      <div style={{ display: "flex", justifyContent: "center", padding: 40 }}>
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <div style={{ padding: 20 }}>
-      {/* <div style={{ backgroundColor: "#caffda", padding: "20px", flex: 1 }}> */}
-      <UniversalTable<Transport>
+      {error && <p style={{ color: "red", marginBottom: 16 }}>{error}</p>}
+
+      <UniversalTable<TransportUI>
         title="ТРАНСПОРТ КОМПАНІЇ"
         columns={transportColumns}
         data={vehicles}
@@ -147,24 +205,13 @@ const Transport = () => {
         onDelete={handleDelete}
         deleteBtnText="ВИДАЛИТИ ТЗ"
       />
-      {/* </div> */}
-      {/* 
-      <hr
-        style={{
-          border: "none",
-          borderTop: "2px dotted #4db8ff",
-          margin: 0,
-        }}
-      /> */}
 
-      {/* <div style={{ backgroundColor: "#baf3ff", padding: "20px", paddingBottom: "60px" }}> */}
       <UniversalForm
         title="ДОДАТИ ТЗ ДО СИСТЕМИ"
         fields={addTransportFields}
         submitText="ДОДАТИ ТЗ"
         onSubmit={handleAddTransport}
       />
-      {/* </div> */}
     </div>
   );
 };

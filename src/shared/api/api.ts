@@ -1,11 +1,8 @@
 import axios from "axios";
 import { store } from "../../store/store";
 import { setAuthData, logout } from "../../store/userSlice";
-import { API_BASE_URL } from "../config/config";
 import { refreshToken as refreshTokenFn } from "./index";
-export const api = axios.create({
-  baseURL: API_BASE_URL,
-});
+export const api = axios.create({});
 
 api.interceptors.request.use((config) => {
   const accessToken = store.getState().user.accessToken;

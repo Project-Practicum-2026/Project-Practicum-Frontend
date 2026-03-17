@@ -37,7 +37,7 @@ const Home = () => {
       </section>
 
       {/* 2. Секція заклику до авторизації */}
-      {/* <section className={styles["auth-promo"]}>
+      <section className={styles["auth-promo"]}>
         <div className={styles["auth-promo__content"]}>
           <p className={styles["auth-promo__text"]}>
             {textData.homePage.authPromo.textStart}
@@ -57,12 +57,12 @@ const Home = () => {
             className={styles["auth-promo__image"]}
           />
         </picture>
-      </section> */}
+      </section>
 
       {/* Форма авторизації */}
-      {/* <div className={styles["form-holder"]}>
+      <div className={styles["form-holder"]}>
         <LoginForm />
-      </div> */}
+      </div>
     </div>
   );
 };
