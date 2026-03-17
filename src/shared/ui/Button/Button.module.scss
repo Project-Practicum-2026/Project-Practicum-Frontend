@@ -1,6 +1,3 @@
-@import "/src/app/styles/variables.scss";
-@import "/src/app/styles/mixins.scss";
-
 .button {
   @include text-links-button;
 
@@ -25,7 +22,7 @@
 
   &:hover {
     color: $primary-white;
-    background-color: darken($secondary-accent, 60%);
+    background-color: color.adjust($secondary-accent, $lightness: -60%);
   }
 
   // Ефект натискання (кнопка трохи просідає)
@@ -42,7 +39,7 @@
     color: $primary-white;
 
     &:hover {
-      background-color: darken($primary-accent, 15%);
+      background-color: color.adjust($primary-accent, $lightness: -15%);
     }
   }
 
@@ -52,7 +49,7 @@
     color: $primary-black;
 
     &:hover {
-      background-color: darken($secondary-accent, 15%);
+      background-color: color.adjust($secondary-accent, $lightness: -15%);
     }
   }
 
@@ -62,7 +59,7 @@
     color: $primary-white;
 
     &:hover {
-      background-color: darken($additional-accent, 15%);
+      background-color: color.adjust($additional-accent, $lightness: -15%);
     }
   }
 

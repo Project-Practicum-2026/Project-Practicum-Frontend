@@ -1,6 +1,3 @@
-@import "/src/app/styles/variables.scss";
-@import "/src/app/styles/mixins.scss";
-
 .nav {
   display: flex;
   align-items: center;
@@ -27,11 +24,11 @@
 
     @media (max-width: $mobile) {
       width: 100%;
-      border-top: 1px solid darken($primary-accent, 20%); // Додаємо лінію зверху
+      border-top: 1px solid color.adjust($primary-accent, $lightness: -20%); // Додаємо лінію зверху
 
       // Для останнього елемента (де кнопка) можна прибрати відступи
       &:last-child {
-        border-bottom: 1px solid darken($primary-accent, 25%);
+        border-bottom: 1px solid color.adjust($primary-accent, $lightness: -25%);
       }
     }
 
@@ -41,7 +38,7 @@
         transition: background-color 0.2s ease;
 
         &:hover {
-          background-color: darken($primary-accent, 15%);
+          background-color: color.adjust($primary-accent, $lightness: -15%);
         }
 
         // Жорстко перевизначаємо стилі КНОПКИ, яка лежить всередині
