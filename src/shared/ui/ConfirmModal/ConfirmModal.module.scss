@@ -1,4 +1,3 @@
-
 .overlay {
   position: fixed;
   top: 0;
@@ -71,14 +70,18 @@
     color: $primary-white;
 
     &:hover {
-      background: darken(#35bbef, 10%);
+      background: color.adjust(#35bbef, $lightness: -10%);
     }
   }
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideUp {
