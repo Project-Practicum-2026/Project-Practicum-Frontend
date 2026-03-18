@@ -1,23 +1,12 @@
-import { MapPin, Navigation } from "lucide-react";
+
 import styles from "./DashBoardTable.module.scss";
 import type { FC } from "react";
 import textData from "../../../textData/ua.json";
-
-interface ITrip {
-  id: string;
-  fullId?: string;
-  driver: string;
-  status: string;
-  modifier: string;
-  dep: string;
-  depTime: string;
-  arr: string;
-  arrTime: string;
-}
+import type { IFleetDashboardTrip } from "../../api";
 
 interface DashboardTableProps {
-  data: ITrip[];
-  onRouteClick?: (tripFullId: string) => void;
+  data: IFleetDashboardTrip[];
+  onRouteClick?: (tripId: string) => void;
 }
 
 const DashboardTable: FC<DashboardTableProps> = ({ data, onRouteClick }) => {
@@ -52,39 +41,46 @@ const DashboardTable: FC<DashboardTableProps> = ({ data, onRouteClick }) => {
             ) : (
               data.map((trip) => (
                 <tr
-                  key={trip.id}
+                  key={trip.trip_id}
                   className={styles["active-trips__row"]}>
-                  <td className={`${styles["active-trips__cell"]} ${styles["active-trips__cell--id"]}`}>{trip.id}</td>
+                  <td className={`${styles["active-trips__cell"]} ${styles["active-trips__cell--id"]}`}>{trip.trip_id.slice(0, 8).toUpperCase()}</td>
                   <td className={`${styles["active-trips__cell"]} ${styles["active-trips__cell--driver"]}`}>
-                    {trip.driver}
+                    <div>{trip.driver_full_name}</div>
+                    <div style={{ fontSize: "0.8rem", color: "#666" }}>{trip.plate_number}</div>
                   </td>
                   <td className={styles["active-trips__cell"]}>
                     <span
-                      className={`${styles["active-trips__status"]} ${styles[`active-trips__status--${trip.modifier}`]}`}>
-                      {trip.status}
+                      className={`${styles["active-trips__status"]} ${styles[`active-trips__status--in-progress`]}`}>
+                      В дорозі
                     </span>
                   </td>
                   <td className={`${styles["active-trips__cell"]} ${styles["active-trips__cell--address"]}`}>
-                    {trip.dep}
-                    <span className={styles["active-trips__date-time"]}>{trip.depTime}</span>
+                    {trip.origin || "—"}
                   </td>
                   <td className={`${styles["active-trips__cell"]} ${styles["active-trips__cell--address"]}`}>
-                    {trip.arr}
-                    <span className={styles["active-trips__date-time"]}>{trip.arrTime}</span>
+                    {trip.destination || "—"}
                   </td>
                   <td className={`${styles["active-trips__cell"]} ${styles["active-trips__cell--center"]}`}>
                     <button
                       className={styles["active-trips__icon-button"]}
-                      onClick={() => trip.fullId && onRouteClick?.(trip.fullId)}
+                      onClick={() => onRouteClick?.(trip.trip_id)}
                       title="Переглянути маршрут"
+                      style={{ fontSize: "0.85rem", padding: "6px 12px", background: "var(--primary-accent)", color: "white", borderRadius: "6px", width: "auto" }}
                     >
-                      <MapPin size={28} />
+                      Переглянути
                     </button>
                   </td>
-                  <td className={`${styles["active-trips__cell"]} ${styles["active-trips__cell--center"]}`}>
-                    <button className={styles["active-trips__icon-button"]} title="GPS">
-                      <Navigation size={28} />
-                    </button>
+                  <td className={`${styles["active-trips__cell"]} ${styles["active-trips__cell--center"]}`} style={{ minWidth: "120px" }}>
+                    {trip.last_gps ? (
+                      <div style={{ display: "flex", flexDirection: "column", gap: "2px", fontSize: "0.85rem", alignItems: "center" }}>
+                        <span style={{ fontWeight: 600 }}>{trip.last_gps.speed_kmh.toFixed(0)} км/год</span>
+                        <span style={{ color: "#666" }}>
+                          {trip.last_gps.latitude.toFixed(4)}, {trip.last_gps.longitude.toFixed(4)}
+                        </span>
+                      </div>
+                    ) : (
+                      <span style={{ fontSize: "0.85rem", color: "#999" }}>Немає даних</span>
+                    )}
                   </td>
                 </tr>
               ))

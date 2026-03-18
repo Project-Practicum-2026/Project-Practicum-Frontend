@@ -31,6 +31,7 @@ import {
   DELETE_VEHICLE_TYPE_URL,
   GET_CARGOS_URL,
   GET_FLEET_DASHBOARD_URL,
+  GET_FLEET_DASHBOARD_ROUTE_URL,
   ADD_VEHICLE_TYPE_URL,
   CREATE_TRIP_URL,
 } from "./apiUrls";
@@ -271,8 +272,54 @@ export const deleteVehicle = async (vehicleId: string): Promise<void> => {
   await api.delete(DELETE_VEHICLE_URL(vehicleId));
 };
 
-export const getFleetDashboard = async () => {
-  const response = await api.get(GET_FLEET_DASHBOARD_URL);
+// Fleet Dashboard types
+export interface IFleetDashboardTrip {
+  trip_id: string;
+  route_id: string;
+  vehicle_id: string;
+  plate_number: string;
+  driver_full_name: string;
+  status: "on_road";
+  origin: string;
+  destination: string;
+  last_gps: {
+    latitude: number;
+    longitude: number;
+    speed_kmh: number;
+    recorded_at: string;
+  } | null;
+}
+
+export interface IFleetDashboardRoute {
+  id: string;
+  status: string;
+  origin_warehouse: { name: string; address: string; latitude: number; longitude: number };
+  stops: Array<{
+    id: string;
+    stop_order: number;
+    warehouse: { name: string; address: string; latitude: number; longitude: number };
+    estimated_arrival: string | null;
+    actual_arrival: string | null;
+    distance_from_prev_km: number;
+    cargo_items: Array<{
+      id: string;
+      action: "pickup" | "delivery";
+      cargo: {
+        description: string;
+        weight_kg: number;
+        volume_m3: number;
+      };
+    }>;
+  }>;
+}
+
+export const getFleetDashboard = async (): Promise<IFleetDashboardTrip[]> => {
+  const response = await api.get<IFleetDashboardTrip[]>(GET_FLEET_DASHBOARD_URL);
+  return response.data;
+};
+
+export const getFleetDashboardRoute = async (tripId: string): Promise<IFleetDashboardRoute> => {
+  const response = await api.get<IFleetDashboardRoute>(GET_FLEET_DASHBOARD_ROUTE_URL(tripId));
   return response.data;
 };
 

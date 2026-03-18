@@ -61,6 +61,8 @@ export const DELETE_VEHICLE_URL = (vehicleId: string) =>
 export const UPDATE_VEHICLE_STATUS_URL = (vehicleId: string) =>
   `${API_BASE_URL}/fleet/vehicles/${vehicleId}/status`;
 export const GET_FLEET_DASHBOARD_URL = `${API_BASE_URL}/fleet/dashboard/`;
+export const GET_FLEET_DASHBOARD_ROUTE_URL = (tripId: string) =>
+  `${API_BASE_URL}/fleet/dashboard/${tripId}/route`;
 
 // Cargo management
 export const GET_CARGOS_URL = `${API_BASE_URL}/cargo/`;

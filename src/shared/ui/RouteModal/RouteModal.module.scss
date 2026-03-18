@@ -1,0 +1,159 @@
+@use "../../../app/styles/variables" as *;
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: $size-md;
+}
+
+.modalContent {
+  background: $primary-white;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 700px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $size-md $size-lg;
+  border-bottom: 1px solid #eee;
+
+  h2 {
+    font-family: $font-heading;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: $primary-black;
+    margin: 0;
+  }
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  font-size: 1.75rem;
+  line-height: 1;
+  color: #999;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #ef4444;
+  }
+}
+
+.modalBody {
+  padding: $size-lg;
+  overflow-y: auto;
+  flex: 1;
+  position: relative;
+  min-height: 200px;
+}
+
+.error {
+  color: #ef4444;
+  font-family: $font-body;
+  text-align: center;
+  padding: $size-xl;
+  font-weight: 500;
+}
+
+.routeContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.stopItem {
+  display: flex;
+  gap: $size-md;
+  padding: $size-md 0;
+  border-bottom: 1px solid #eee;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.stopMarker {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: $primary-accent;
+  color: $primary-white;
+  font-family: $font-heading;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.stopInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  strong {
+    font-family: $font-heading;
+    font-size: 1rem;
+    font-weight: 700;
+    color: $primary-black;
+  }
+
+  span {
+    font-family: $font-body;
+    font-size: 0.85rem;
+    color: #555;
+    line-height: 1.4;
+  }
+}
+
+.stopTimes {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 2px;
+  span {
+    font-size: 0.8rem;
+    color: #3b82f6;
+  }
+}
+
+.stopMeta {
+  font-size: 0.8rem !important;
+  color: #999 !important;
+  font-weight: 500;
+}
+
+.stopCargo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: $size-sm;
+  padding: $size-sm;
+  background: rgba($primary-accent, 0.05);
+  border-radius: 8px;
+  border-left: 3px solid $primary-accent;
+
+  span {
+    font-size: 0.85rem;
+    color: $primary-black;
+    font-weight: 500;
+  }
+}
