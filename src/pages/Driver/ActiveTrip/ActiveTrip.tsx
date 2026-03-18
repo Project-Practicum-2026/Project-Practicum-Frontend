@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { useCustomSelector, useCustomDispatch } from "../../../store/hooks";
 import { advanceStop, resetDriverState } from "../../../store/driverSlice";
-import { updateTripStatus } from "../../../shared/api";
+import { updateTripStatus, getTripDetail } from "../../../shared/api";
 import type { TripStatus } from "../../../shared/api/types/driver/types";
 import ConfirmModal from "../../../shared/ui/ConfirmModal/ConfirmModal";
+import Loader from "../../../shared/ui/Loader/Loader";
 import styles from "./ActiveTrip.module.scss";
 
 const STATUS_LABELS: Record<TripStatus, string> = {
@@ -43,6 +44,28 @@ const ActiveTrip = () => {
   const [isDeclineModalOpen, setIsDeclineModalOpen] = useState(false);
   const [currentStatus, setCurrentStatus] = useState<TripStatus>("waiting");
   const [isUpdating, setIsUpdating] = useState(false);
+  const [isLoadingStatus, setIsLoadingStatus] = useState(true);
+
+  // Sync status from DB on mount
+  useEffect(() => {
+    const syncStatus = async () => {
+      if (!activeTripId) {
+        setIsLoadingStatus(false);
+        return;
+      }
+      try {
+        const tripDetail = await getTripDetail(activeTripId);
+        if (tripDetail?.status) {
+          setCurrentStatus(tripDetail.status as TripStatus);
+        }
+      } catch (err) {
+        console.error("Failed to sync trip status:", err);
+      } finally {
+        setIsLoadingStatus(false);
+      }
+    };
+    syncStatus();
+  }, [activeTripId]);
 
   if (!activeRouteDetail) {
     navigate("/driver");
@@ -112,6 +135,10 @@ const ActiveTrip = () => {
     dispatch(resetDriverState());
     navigate("/driver");
   };
+
+  if (isLoadingStatus) {
+    return <Loader />;
+  }
 
   return (
     <div className={styles.trip}>
@@ -190,6 +217,23 @@ const ActiveTrip = () => {
               <span>{activeRouteDetail.total_weight_kg.toFixed(1)} кг</span>
               <span>{activeRouteDetail.total_volume_m3.toFixed(2)} м³</span>
             </div>
+
+            <div className={styles.trip__stopsTitle}>Зупинки маршруту:</div>
+            <ul className={styles.trip__stopsList}>
+              {activeRouteDetail.stops.map((stop, idx) => (
+                <li key={stop.id} className={styles.trip__stopItem}>
+                  <span className={styles.trip__stopNumber}>{idx + 1}</span>
+                  <span>
+                    <strong>{stop.warehouse.name}</strong>
+                    <br />
+                    {stop.warehouse.address}
+                    {stop.cargo_items && stop.cargo_items.length > 0 && (
+                      <> — {stop.cargo_items.map(ci => ci.action === "pickup" ? "Забрати" : "Доставити").join(", ")}</>
+                    )}
+                  </span>
+                </li>
+              ))}
+            </ul>
           </div>
         )}
       </div>

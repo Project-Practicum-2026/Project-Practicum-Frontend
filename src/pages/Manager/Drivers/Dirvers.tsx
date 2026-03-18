@@ -5,45 +5,64 @@ import UniversalTable from "../../../shared/ui/UniversalTable/UniversalTable";
 import textData from "../../../textData/ua.json";
 import styles from "../../../shared/ui/UniversalTable/UniversalTable.module.scss";
 import driverStyles from "./Drivers.module.scss";
-import { getDrivers, addDriver, updateDriverStatus, getWarehouses } from "../../../shared/api";
+import { getDrivers, addDriver, updateDriverStatus, getAllWarehouses, updateDriver, deleteDriver } from "../../../shared/api";
 import type { IDriverResponse } from "../../../shared/api";
 import type { IWarehouseResponse } from "../../../shared/api/types/driver/types";
 import Loader from "../../../shared/ui/Loader/Loader";
 
-const driverFields: FormField[] = [
+const baseDriverFields: FormField[] = [
   {
     name: "full_name",
-    label: textData.manager.dashboard.drivers.title,
-    placeholder: textData.placeholders.fullName,
+    label: textData.manager.drivers.fields.fullName.label,
+    placeholder: textData.manager.drivers.fields.fullName.placeholder,
     rules: {
-      required: "Введіть ПІБ водія",
+      required: textData.manager.drivers.fields.fullName.errorReq,
     },
   },
   {
     name: "password",
-    label: "Пароль",
+    label: textData.manager.drivers.fields.password.label,
     type: "password",
-    placeholder: "••••••••••••••••",
+    placeholder: textData.manager.drivers.fields.password.placeholder,
     rules: {
-      required: "Введіть пароль",
+      required: textData.manager.drivers.fields.password.errorReq,
       minLength: {
         value: 8,
-        message: "Мінімум 8 символів",
+        message: textData.manager.drivers.fields.password.errorMin,
       },
     },
   },
   {
     name: "email",
-    label: "Email",
+    label: textData.manager.drivers.fields.email.label,
     type: "email",
-    placeholder: "kakayapochta@gmail.com",
+    placeholder: textData.manager.drivers.fields.email.placeholder,
     rules: {
-      required: "Введіть email",
+      required: textData.manager.drivers.fields.email.errorReq,
       pattern: {
         value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-        message: "Некоректний формат email",
+        message: textData.manager.drivers.fields.email.errorFormat,
       },
     },
+  },
+  {
+    name: "phone",
+    label: textData.manager.drivers.fields.phone.label,
+    placeholder: textData.manager.drivers.fields.phone.placeholder,
+    rules: {
+      pattern: {
+        value: /^\+?[0-9]{10,14}$/,
+        message: textData.manager.drivers.fields.phone.errorFormat,
+      },
+    },
+  },
+  {
+    name: "home_warehouse_id",
+    label: textData.manager.drivers.fields.homeWarehouse.label,
+    type: "select",
+    placeholder: textData.manager.drivers.fields.homeWarehouse.placeholder,
+    options: [], 
+    rules: { required: "Будь ласка, оберіть склад" }
   },
 ];
 
@@ -84,16 +103,16 @@ const mapDriverToUI = (driver: IDriverResponse): Driver => ({
 
 const driverColumns: TableColumn<Driver>[] = [
   {
-    header: "ID ВОДІЯ",
+    header: textData.manager.drivers.columns.id,
     key: "id",
   },
   {
-    header: "ІМ'Я",
+    header: textData.manager.drivers.columns.name,
     key: "name",
     editable: true,
   },
   {
-    header: "СТАТУС",
+    header: textData.manager.drivers.columns.status,
     key: "status",
     render: (driver) => {
       let color = "#ccc";
@@ -128,111 +147,154 @@ const driverColumns: TableColumn<Driver>[] = [
         value={value as string}
         onChange={(e) => onChange(e.target.value as Driver["status"])}
       >
-        <option value="В дорозі">В дорозі</option>
-        <option value="Очікує завантаження">Очікує завантаження</option>
-        <option value="Прибув. Очікує розвантаження">Прибув. Очікує розвантаження</option>
-        <option value="Не активний">Не активний</option>
+        <option value="В дорозі">{textData.manager.drivers.statuses.onTrip}</option>
+        <option value="Очікує завантаження">{textData.manager.drivers.statuses.waiting}</option>
+        <option value="Прибув. Очікує розвантаження">{textData.manager.drivers.statuses.arrived}</option>
+        <option value="Не активний">{textData.manager.drivers.statuses.inactive}</option>
       </select>
     ),
   },
   {
-    header: "ПОШТА",
+    header: textData.manager.drivers.columns.email,
     key: "email",
     editable: true,
-  },
-  {
-    header: "ПАРОЛЬ",
-    render: () => "••••••••••••",
   },
 ];
 
 const Drivers = () => {
   const [drivers, setDrivers] = useState<Driver[]>([]);
+  const [driverFields, setDriverFields] = useState<FormField[]>(baseDriverFields);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchDrivers = useCallback(async () => {
+  const fetchData = useCallback(async () => {
     try {
       setIsLoading(true);
       setError(null);
-      const data = await getDrivers();
-      setDrivers(data.map(mapDriverToUI));
+      const [driversData, warehousesData] = await Promise.all([
+        getDrivers(),
+        getAllWarehouses()
+      ]);
+      setDrivers(driversData.map(mapDriverToUI));
+      
+      const whOptions = warehousesData.map((wh: IWarehouseResponse) => ({
+        value: wh.id,
+        label: wh.name
+      }));
+      setDriverFields((prev) => 
+        prev.map(f => f.name === "home_warehouse_id" ? { ...f, options: whOptions } : f)
+      );
     } catch (err) {
-      console.error("Failed to fetch drivers:", err);
-      setError("Не вдалося завантажити список водіїв");
+      console.error("Failed to fetch drivers data:", err);
+      setError(textData.manager.drivers.errors.fetch);
     } finally {
       setIsLoading(false);
     }
   }, []);
 
   useEffect(() => {
-    fetchDrivers();
-  }, [fetchDrivers]);
+    fetchData();
+  }, [fetchData]);
 
   const handleAddDriver = async (data: Record<string, string>) => {
     try {
       setError(null);
+      const phoneVal = data.phone?.trim() ? data.phone.trim() : null;
+      const whIdVal = data.home_warehouse_id?.trim() ? data.home_warehouse_id.trim() : null;
       await addDriver({
         email: data.email,
         password: data.password,
         full_name: data.full_name,
+        phone: phoneVal,
+        home_warehouse_id: whIdVal,
       });
       // Refresh the list after adding
-      await fetchDrivers();
-    } catch (err) {
-      console.error("Failed to add driver:", err);
-      setError("Не вдалося додати водія. Перевірте дані та спробуйте знову.");
+      await fetchData();
+    } catch (err: any) {
+      console.error("Failed to add driver, API Error:", err.response?.data || err);
+      setError(textData.manager.drivers.errors.add);
     }
   };
 
-  const handleSaveEdit = (updatedDriver: Driver) => {
+  const handleSaveEdit = async (updatedDriver: Driver) => {
+    const originalDriver = drivers.find(d => d._backendId === updatedDriver._backendId);
+    
     // Update UI immediately (optimistic update)
     setDrivers((prev) =>
       prev.map((d) => (d._backendId === updatedDriver._backendId ? updatedDriver : d))
     );
 
-    // Try to sync status to backend in background
-    const statusMap: Record<string, string> = {
-      "В дорозі": "on_trip",
-      "Очікує завантаження": "waiting",
-      "Прибув. Очікує розвантаження": "arrived",
-      "Не активний": "off_duty",
-    };
-    const backendStatus = statusMap[updatedDriver.status] || "off_duty";
-    updateDriverStatus(updatedDriver._backendId, backendStatus).catch((err) => {
-      console.error("Failed to sync driver status:", err);
-    });
+    try {
+      const promises = [];
+      const statusMap: Record<string, string> = {
+        "В дорозі": "on_trip",
+        "Очікує завантаження": "waiting",
+        "Прибув. Очікує розвантаження": "arrived",
+        "Не активний": "off_duty",
+      };
+
+      if (originalDriver && originalDriver.status !== updatedDriver.status) {
+        const backendStatus = statusMap[updatedDriver.status] || "off_duty";
+        promises.push(updateDriverStatus(updatedDriver._backendId, backendStatus));
+      }
+
+      const nameChanged = originalDriver && originalDriver.name !== updatedDriver.name;
+      const emailChanged = originalDriver && originalDriver.email !== updatedDriver.email;
+
+      if (nameChanged || emailChanged) {
+        promises.push(updateDriver(updatedDriver._backendId, {
+          full_name: updatedDriver.name,
+          email: updatedDriver.email
+        }));
+      }
+
+      await Promise.all(promises);
+    } catch (err) {
+      console.error("Failed to sync driver:", err);
+      if (originalDriver) {
+        setDrivers((prev) =>
+          prev.map((d) => (d._backendId === originalDriver._backendId ? originalDriver : d))
+        );
+      }
+      alert("Помилка збереження даних водія");
+    }
   };
 
-  const handleDelete = (driverToDelete: Driver) => {
-    if (window.confirm(`Ви впевнені, що хочете видалити водія ${driverToDelete.name}?`)) {
-      setDrivers((prev) => prev.filter((d) => d._backendId !== driverToDelete._backendId));
+  const handleDelete = async (driverToDelete: Driver) => {
+    if (window.confirm(`${textData.manager.drivers.confirmDelete} ${driverToDelete.name}?`)) {
+      try {
+        await deleteDriver(driverToDelete._backendId);
+        setDrivers((prev) => prev.filter((d) => d._backendId !== driverToDelete._backendId));
+      } catch (err) {
+        console.error("Failed to delete driver:", err);
+        alert("Помилка при видаленні водія");
+      }
     }
   };
 
   if (isLoading) {
     return (
-      <div className={driverStyles.drivers} style={{ display: "flex", justifyContent: "center", padding: 40 }}>
+      <div className={driverStyles.wrapper} style={{ display: "flex", justifyContent: "center" }}>
         <Loader />
       </div>
     );
   }
 
   return (
-    <div className={driverStyles.drivers}>
+    <div className={driverStyles.wrapper}>
       {error && <p style={{ color: "red", marginBottom: 16 }}>{error}</p>}
 
       <UniversalTable
-        title="ВОДІЇ КОМПАНІЇ"
+        title={textData.manager.drivers.pageTitle}
         columns={driverColumns}
         data={drivers}
         onSaveEdit={handleSaveEdit}
         onDelete={handleDelete}
-        deleteBtnText="ВИДАЛИТИ ВОДІЯ"
+        deleteBtnText={textData.manager.drivers.deleteBtn}
       />
       <UniversalForm
-        title={textData.manager.dashboard.drivers.title}
-        submitText={textData.buttons.addDriver}
+        title={textData.manager.drivers.addTitle}
+        submitText={textData.manager.drivers.addBtn}
         fields={driverFields}
         onSubmit={handleAddDriver}
       />

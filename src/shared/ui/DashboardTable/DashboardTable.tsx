@@ -5,6 +5,7 @@ import textData from "../../../textData/ua.json";
 
 interface ITrip {
   id: string;
+  fullId?: string;
   driver: string;
   status: string;
   modifier: string;
@@ -14,7 +15,12 @@ interface ITrip {
   arrTime: string;
 }
 
-const DashboardTable: FC<{ data: ITrip[] }> = ({ data }) => {
+interface DashboardTableProps {
+  data: ITrip[];
+  onRouteClick?: (tripFullId: string) => void;
+}
+
+const DashboardTable: FC<DashboardTableProps> = ({ data, onRouteClick }) => {
   return (
     <div className={styles["active-trips"]}>
       <h1 className={styles["active-trips__title"]}>{textData.manager.dashboard.table.title}</h1>
@@ -37,40 +43,52 @@ const DashboardTable: FC<{ data: ITrip[] }> = ({ data }) => {
             </tr>
           </thead>
           <tbody>
-            {data.map((trip) => (
-              <tr
-                key={trip.id}
-                className={styles["active-trips__row"]}>
-                <td className={`${styles["active-trips__cell"]} ${styles["active-trips__cell--id"]}`}>{trip.id}</td>
-                <td className={`${styles["active-trips__cell"]} ${styles["active-trips__cell--driver"]}`}>
-                  {trip.driver}
-                </td>
-                <td className={styles["active-trips__cell"]}>
-                  <span
-                    className={`${styles["active-trips__status"]} ${styles[`active-trips__status--${trip.modifier}`]}`}>
-                    {trip.status}
-                  </span>
-                </td>
-                <td className={`${styles["active-trips__cell"]} ${styles["active-trips__cell--address"]}`}>
-                  {trip.dep}
-                  <span className={styles["active-trips__date-time"]}>{trip.depTime}</span>
-                </td>
-                <td className={`${styles["active-trips__cell"]} ${styles["active-trips__cell--address"]}`}>
-                  {trip.arr}
-                  <span className={styles["active-trips__date-time"]}>{trip.arrTime}</span>
-                </td>
-                <td className={`${styles["active-trips__cell"]} ${styles["active-trips__cell--center"]}`}>
-                  <button className={styles["active-trips__icon-button"]}>
-                    <MapPin size={28} />
-                  </button>
-                </td>
-                <td className={`${styles["active-trips__cell"]} ${styles["active-trips__cell--center"]}`}>
-                  <button className={styles["active-trips__icon-button"]}>
-                    <Navigation size={28} />
-                  </button>
+            {data.length === 0 ? (
+              <tr>
+                <td colSpan={7} style={{ textAlign: "center", padding: "24px", color: "#999" }}>
+                  Немає активних рейсів
                 </td>
               </tr>
-            ))}
+            ) : (
+              data.map((trip) => (
+                <tr
+                  key={trip.id}
+                  className={styles["active-trips__row"]}>
+                  <td className={`${styles["active-trips__cell"]} ${styles["active-trips__cell--id"]}`}>{trip.id}</td>
+                  <td className={`${styles["active-trips__cell"]} ${styles["active-trips__cell--driver"]}`}>
+                    {trip.driver}
+                  </td>
+                  <td className={styles["active-trips__cell"]}>
+                    <span
+                      className={`${styles["active-trips__status"]} ${styles[`active-trips__status--${trip.modifier}`]}`}>
+                      {trip.status}
+                    </span>
+                  </td>
+                  <td className={`${styles["active-trips__cell"]} ${styles["active-trips__cell--address"]}`}>
+                    {trip.dep}
+                    <span className={styles["active-trips__date-time"]}>{trip.depTime}</span>
+                  </td>
+                  <td className={`${styles["active-trips__cell"]} ${styles["active-trips__cell--address"]}`}>
+                    {trip.arr}
+                    <span className={styles["active-trips__date-time"]}>{trip.arrTime}</span>
+                  </td>
+                  <td className={`${styles["active-trips__cell"]} ${styles["active-trips__cell--center"]}`}>
+                    <button
+                      className={styles["active-trips__icon-button"]}
+                      onClick={() => trip.fullId && onRouteClick?.(trip.fullId)}
+                      title="Переглянути маршрут"
+                    >
+                      <MapPin size={28} />
+                    </button>
+                  </td>
+                  <td className={`${styles["active-trips__cell"]} ${styles["active-trips__cell--center"]}`}>
+                    <button className={styles["active-trips__icon-button"]} title="GPS">
+                      <Navigation size={28} />
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
@@ -79,3 +97,4 @@ const DashboardTable: FC<{ data: ITrip[] }> = ({ data }) => {
 };
 
 export default DashboardTable;
+

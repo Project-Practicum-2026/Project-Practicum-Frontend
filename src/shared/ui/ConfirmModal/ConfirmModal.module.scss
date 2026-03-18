@@ -17,10 +17,23 @@
   background: $primary-white;
   border-radius: 12px;
   padding: $size-xl;
-  max-width: 400px;
+  max-width: 420px;
   width: 100%;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
   animation: slideUp 0.25s ease;
+  text-align: center;
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    margin: 0 auto $size-md;
+    border-radius: 50%;
+    background: rgba(70, 59, 250, 0.1);
+    color: #463bfa;
+  }
 
   &__title {
     font-family: $font-heading;
@@ -41,11 +54,12 @@
   &__actions {
     display: flex;
     gap: $size-sm;
-    justify-content: flex-end;
+    justify-content: center;
   }
 
   &__btn--cancel,
-  &__btn--confirm {
+  &__btn--confirm,
+  &__btn--danger {
     padding: $size-sm $size-lg;
     border: none;
     border-radius: 8px;
@@ -73,6 +87,15 @@
       background: color.adjust(#35bbef, $lightness: -10%);
     }
   }
+
+  &__btn--danger {
+    background: #ef4444;
+    color: $primary-white;
+
+    &:hover {
+      background: #dc2626;
+    }
+  }
 }
 
 @keyframes fadeIn {
@@ -94,3 +117,4 @@
     transform: translateY(0);
   }
 }
+

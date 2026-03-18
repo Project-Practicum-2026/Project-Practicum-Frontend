@@ -87,9 +87,183 @@
           "waiting": "Очікує",
           "arrived": "Прибув"
         }
+      }
+    },
+    "drivers": {
+      "pageTitle": "ВОДІЇ КОМПАНІЇ",
+      "addTitle": "ДОДАТИ ВОДІЯ ДО СИСТЕМИ",
+      "addBtn": "ДОДАТИ ВОДІЯ",
+      "deleteBtn": "ВИДАЛИТИ ВОДІЯ",
+      "confirmDelete": "Ви впевнені, що хочете видалити водія",
+      "errors": {
+        "fetch": "Не вдалося завантажити список водіїв",
+        "add": "Не вдалося додати водія. Перевірте дані та спробуйте знову."
       },
-      "drivers": {
-        "title": "Додати водія до системи"
+      "columns": {
+        "id": "ID ВОДІЯ",
+        "name": "ІМ'Я",
+        "status": "СТАТУС",
+        "email": "ПОШТА",
+        "password": "ПАРОЛЬ"
+      },
+      "statuses": {
+        "onTrip": "В дорозі",
+        "waiting": "Очікує завантаження",
+        "arrived": "Прибув. Очікує розвантаження",
+        "inactive": "Не активний"
+      },
+      "fields": {
+        "fullName": {
+          "label": "Прізвище, ім'я, по батькові",
+          "placeholder": "Бандера Степан Андрійович",
+          "errorReq": "Введіть ПІБ водія"
+        },
+        "password": {
+          "label": "Пароль",
+          "placeholder": "••••••••••••••••",
+          "errorReq": "Введіть пароль",
+          "errorMin": "Мінімум 8 символів"
+        },
+        "email": {
+          "label": "Email",
+          "placeholder": "kakayapochta@gmail.com",
+          "errorReq": "Введіть email",
+          "errorFormat": "Некоректний формат email"
+        },
+        "phone": {
+          "label": "Телефон водія",
+          "placeholder": "+380991234567",
+          "errorFormat": "Некоректний формат телефону"
+        },
+        "homeWarehouse": {
+          "label": "Домашній склад (Опціонально. ID)",
+          "placeholder": "Введіть ID складу"
+        }
+      }
+    },
+    "managers": {
+      "pageTitle": "МЕНЕДЖЕРИ КОМПАНІЇ",
+      "addTitle": "ДОДАТИ МЕНЕДЖЕРА ДО СИСТЕМИ",
+      "addBtn": "ДОДАТИ МЕНЕДЖЕРА",
+      "deleteBtn": "ВИДАЛИТИ МЕНЕДЖЕРА",
+      "confirmDelete": "Ви впевнені, що хочете видалити менеджера",
+      "errors": {
+        "add": "Не вдалося додати менеджера. Можливо, email вже зайнятий."
+      },
+      "columns": {
+        "id": "ID",
+        "name": "ІМ'Я",
+        "email": "ПОШТА",
+        "password": "ПАРОЛЬ"
+      },
+      "fields": {
+        "fullName": {
+          "label": "Прізвище, ім'я, по батькові",
+          "placeholder": "Швець Ірина Олександрівна",
+          "errorReq": "Введіть ПІБ менеджера",
+          "errorMin": "Мінімум 5 символів"
+        },
+        "password": {
+          "label": "Пароль",
+          "placeholder": "••••••••••••••••",
+          "errorReq": "Введіть пароль",
+          "errorMin": "Пароль має містити мінімум 8 символів"
+        },
+        "email": {
+          "label": "Email",
+          "placeholder": "okak@gmail.com",
+          "errorReq": "Введіть email",
+          "errorFormat": "Некоректний формат email адреси"
+        }
+      }
+    },
+    "transport": {
+      "pageTitle": "ТРАНСПОРТ КОМПАНІЇ",
+      "addTitle": "ДОДАТИ ТЗ ДО СИСТЕМИ",
+      "addBtn": "ДОДАТИ ТЗ",
+      "deleteBtn": "ВИДАЛИТИ ТЗ",
+      "confirmDelete": "Видалити транспорт",
+      "errors": {
+        "fetch": "Не вдалося завантажити список транспорту",
+        "add": "Не вдалося додати ТЗ. Перевірте дані (тип ТЗ має бути валідним UUID)."
+      },
+      "columns": {
+        "plateNumber": "НОМЕРНИЙ ЗНАК",
+        "dimensions": "ГАБАРИТИ",
+        "status": "СТАТУС",
+        "location": "МІСЦЕЗНАХОДЖЕННЯ"
+      },
+      "statuses": {
+        "onTrip": "В дорозі",
+        "available": "Доступний",
+        "maintenance": "На обслуговуванні"
+      },
+      "fields": {
+        "plateNumber": {
+          "label": "Номерний знак",
+          "placeholder": "АА 1234 ВВ",
+          "errorReq": "Вкажіть номерний знак"
+        },
+        "vehicleTypeId": {
+          "label": "Тип транспорту (ID)",
+          "placeholderDefault": "Завантажте типи...",
+          "placeholderPrefix": "Наприклад:",
+          "errorReq": "Вкажіть тип транспорту"
+        },
+        "currentWarehouse": {
+          "label": "Поточний склад (Опціонально. ID)",
+          "placeholder": "Введіть ID складу"
+        }
+      }
+    },
+    "warehouses": {
+      "pageTitle": "СКЛАДИ ПАРТНЕРІВ",
+      "addTitle": "ДОДАТИ СКЛАД ДО СИСТЕМИ",
+      "addBtn": "ДОДАТИ СКЛАД",
+      "deleteBtn": "ВИДАЛИТИ СКЛАД",
+      "confirmDelete": "Ви дійсно хочете видалити склад",
+      "errors": {
+        "fetch": "Не вдалося завантажити список складів",
+        "add": "Не вдалося додати склад. Перевірте дані."
+      },
+      "columns": {
+        "id": "ID СКЛАДУ",
+        "name": "НАЗВА",
+        "address": "АДРЕСА"
+      },
+      "fields": {
+        "name": {
+          "label": "Назва",
+          "placeholder": "Харківський логістичний термінал",
+          "errorReq": "Введіть назву складу",
+          "errorMin": "Мінімум 3 символи"
+        },
+        "address": {
+          "label": "АДРЕСА",
+          "placeholder": "м.Харків, вулиця Українських героїв, 28, 10344",
+          "errorReq": "Введіть повну адресу складу"
+        },
+        "contactEmail": {
+          "label": "Контактний Email",
+          "placeholder": "warehouse@company.com",
+          "errorReq": "Введіть контактний email",
+          "errorFormat": "Некоректний формат email"
+        },
+        "contactPhone": {
+          "label": "Контактний Телефон",
+          "placeholder": "+380501234567",
+          "errorFormat": "Некоректний формат телефону"
+        },
+        "latitude": {
+          "label": "Широта",
+          "placeholder": "49.9935",
+          "errorReq": "Введіть широту"
+        },
+        "longitude": {
+          "label": "Довгота",
+          "placeholder": "36.2304",
+          "errorReq": "Введіть довготу"
+        }
       }
     }
   },

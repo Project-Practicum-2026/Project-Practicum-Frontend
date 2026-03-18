@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback } from "react";
 import UniversalTable, { type TableColumn } from "../../../shared/ui/UniversalTable/UniversalTable";
 import UniversalForm, { type FormField } from "../../../shared/ui/UniversalForm/UniversalForm";
-import { getAllWarehouses, addWarehouse } from "../../../shared/api";
-import type { IWarehouseResponse } from "../../../shared/api/types/driver/types";
+import { getAllWarehouses, addWarehouse, updateWarehouse, deleteWarehouse } from "../../../shared/api";
+import ConfirmModal from "../../../shared/ui/ConfirmModal/ConfirmModal";
+import { Warehouse as WarehouseIcon } from "lucide-react";
 import Loader from "../../../shared/ui/Loader/Loader";
 
 export interface Warehouse {
@@ -16,6 +17,8 @@ const Warehouses: React.FC = () => {
   const [warehouses, setWarehouses] = useState<Warehouse[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [warehouseToDelete, setWarehouseToDelete] = useState<Warehouse | null>(null);
 
   const fetchWarehouses = useCallback(async () => {
     try {
@@ -58,6 +61,52 @@ const Warehouses: React.FC = () => {
       editable: true,
     },
   ];
+
+  const handleSaveEdit = async (updatedWh: Warehouse) => {
+    const originalWh = warehouses.find(w => w._backendId === updatedWh._backendId);
+    
+    // Optistic update
+    setWarehouses(prev => 
+      prev.map(w => w._backendId === updatedWh._backendId ? updatedWh : w)
+    );
+    
+    try {
+      if (originalWh && (originalWh.name !== updatedWh.name || originalWh.address !== updatedWh.address)) {
+        await updateWarehouse(updatedWh._backendId, {
+          name: updatedWh.name,
+          address: updatedWh.address
+        });
+      }
+    } catch (err) {
+      console.error("Failed to update warehouse:", err);
+      // Rollback
+      if (originalWh) {
+        setWarehouses(prev => 
+          prev.map(w => w._backendId === originalWh._backendId ? originalWh : w)
+        );
+      }
+      alert("Помилка збереження даних складу");
+    }
+  };
+
+  const handleDelete = (whToDelete: Warehouse) => {
+    setWarehouseToDelete(whToDelete);
+    setIsDeleteModalOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!warehouseToDelete) return;
+    try {
+      await deleteWarehouse(warehouseToDelete._backendId);
+      setWarehouses(prev => prev.filter(w => w._backendId !== warehouseToDelete._backendId));
+    } catch (err) {
+      console.error("Failed to delete warehouse:", err);
+      alert("Помилка при видаленні складу");
+    } finally {
+      setIsDeleteModalOpen(false);
+      setWarehouseToDelete(null);
+    }
+  };
 
   const addWarehouseFields: FormField[] = [
     {
@@ -108,17 +157,7 @@ const Warehouses: React.FC = () => {
     },
   ];
 
-  const handleSaveEdit = (updatedWarehouse: Warehouse) => {
-    setWarehouses((prev) =>
-      prev.map((w) => (w._backendId === updatedWarehouse._backendId ? updatedWarehouse : w))
-    );
-  };
 
-  const handleDelete = (warehouse: Warehouse) => {
-    if (window.confirm(`Ви дійсно хочете видалити склад "${warehouse.name}"?`)) {
-      setWarehouses((prev) => prev.filter((w) => w._backendId !== warehouse._backendId));
-    }
-  };
 
   const handleAddWarehouse = async (data: Record<string, string>) => {
     try {
@@ -155,7 +194,7 @@ const Warehouses: React.FC = () => {
         data={warehouses}
         onSaveEdit={handleSaveEdit}
         onDelete={handleDelete}
-        deleteBtnText="ВИДАЛИТИ СКЛАД"
+        deleteBtnText="Видалити склад"
       />
 
       <UniversalForm
@@ -163,6 +202,18 @@ const Warehouses: React.FC = () => {
         fields={addWarehouseFields}
         submitText="ДОДАТИ СКЛАД"
         onSubmit={handleAddWarehouse}
+      />
+
+      <ConfirmModal
+        isOpen={isDeleteModalOpen}
+        title="Видалення складу"
+        message={`Ви дійсно бажаєте видалити склад \"${warehouseToDelete?.name || ""}\"? Цю дію неможливо відмінити.`}
+        icon={<WarehouseIcon size={28} />}
+        confirmText="Видалити"
+        cancelText="Скасувати"
+        confirmVariant="danger"
+        onConfirm={confirmDelete}
+        onCancel={() => { setIsDeleteModalOpen(false); setWarehouseToDelete(null); }}
       />
     </div>
   );

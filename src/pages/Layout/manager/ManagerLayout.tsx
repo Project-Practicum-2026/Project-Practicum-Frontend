@@ -8,8 +8,8 @@ const ManagerLayout = () => {
   // Масив з назвами
   const MANAGER_LINKS = [
     { path: ROUTES.MANAGER_DASHBOARD, label: textData.manager.menu.dashboard },
+    { path: ROUTES.MANAGER_CARGO, label: "ВАНТАЖІ" },
     { path: ROUTES.MANAGER_DRIVERS, label: textData.manager.menu.drivers },
-    { path: ROUTES.MANAGER_MANAGERS, label: textData.manager.menu.managers },
     { path: ROUTES.MANAGER_TRANSPORT, label: textData.manager.menu.transport },
     {
       path: ROUTES.MANAGER_WAREHOUSES,

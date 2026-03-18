@@ -19,7 +19,7 @@ const Login = () => {
         />
       </div>
 
-      <div style={{ marginTop: 50, marginBottom: 50 }}>
+      <div style={{ marginTop: 30, marginBottom: 50 }}>
         <LoginForm />
       </div>
     </div>
