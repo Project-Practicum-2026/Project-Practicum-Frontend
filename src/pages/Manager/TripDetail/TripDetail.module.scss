@@ -1,0 +1,201 @@
+.detail {
+  padding: $size-lg;
+  max-width: 800px;
+  margin: 0 auto;
+
+  &__backBtn {
+    background: none;
+    border: none;
+    font-family: $font-heading;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: $primary-accent;
+    cursor: pointer;
+    padding: $size-xs 0;
+    margin-bottom: $size-md;
+    transition: opacity 0.2s;
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+
+  &__title {
+    font-family: $font-heading;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: $primary-black;
+    margin-bottom: $size-md;
+  }
+
+  &__error {
+    color: #ef4444;
+    font-family: $font-body;
+    text-align: center;
+    padding: $size-xl;
+  }
+
+  &__statusRow {
+    margin-bottom: $size-lg;
+  }
+
+  &__statusBadge {
+    display: inline-block;
+    padding: $size-xs $size-md;
+    border-radius: 20px;
+    font-family: $font-heading;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: $primary-white;
+    letter-spacing: 0.03em;
+  }
+
+  // Info cards
+  &__cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: $size-md;
+    margin-bottom: $size-lg;
+  }
+
+  &__card {
+    background: $primary-white;
+    border: 2px solid #eee;
+    border-radius: 10px;
+    padding: $size-md;
+  }
+
+  &__cardLabel {
+    font-family: $font-heading;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #999;
+    margin-bottom: $size-xs;
+  }
+
+  &__cardValue {
+    font-family: $font-heading;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: $primary-black;
+  }
+
+  &__cardSub {
+    font-family: $font-body;
+    font-size: 0.8rem;
+    color: #666;
+    margin-top: 2px;
+  }
+
+  // Route section
+  &__route {
+    background: $primary-white;
+    border: 2px solid $primary-black;
+    border-radius: 10px;
+    padding: $size-lg;
+    margin-bottom: $size-lg;
+  }
+
+  &__sectionTitle {
+    font-family: $font-heading;
+    font-size: 1rem;
+    font-weight: 700;
+    color: $primary-black;
+    margin-bottom: $size-md;
+    text-transform: uppercase;
+  }
+
+  &__stop {
+    display: flex;
+    gap: $size-md;
+    padding: $size-md 0;
+    border-bottom: 1px solid #eee;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  &__stopMarker {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: $primary-accent;
+    color: $primary-white;
+    font-family: $font-heading;
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  &__stopInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    strong {
+      font-family: $font-heading;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: $primary-black;
+    }
+
+    span {
+      font-family: $font-body;
+      font-size: 0.85rem;
+      color: #555;
+      line-height: 1.4;
+    }
+  }
+
+  &__stopMeta {
+    font-size: 0.8rem;
+    color: #999;
+  }
+
+  &__stopCargo {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-top: $size-xs;
+    padding: $size-xs $size-sm;
+    background: rgba($primary-accent, 0.06);
+    border-radius: 6px;
+
+    span {
+      font-size: 0.8rem;
+      color: $primary-black;
+    }
+  }
+
+  // Dates
+  &__dates {
+    background: $primary-white;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: $size-md $size-lg;
+    display: flex;
+    flex-direction: column;
+    gap: $size-xs;
+
+    strong {
+      font-family: $font-heading;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #666;
+      margin-right: $size-xs;
+    }
+
+    div {
+      font-family: $font-body;
+      font-size: 0.85rem;
+      color: $primary-black;
+    }
+  }
+}

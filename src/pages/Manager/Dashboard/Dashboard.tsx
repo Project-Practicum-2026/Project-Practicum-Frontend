@@ -1,59 +1,76 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import DashboardTable from "../../../shared/ui/DashboardTable/DashboardTable";
 import StatList from "../../../shared/ui/StatList/StatList";
 import styles from "./Dashboard.module.scss";
+import { getFleetDashboard, getFleetDashboardRoute } from "../../../shared/api";
+import type { IFleetDashboardTrip, IFleetDashboardRoute } from "../../../shared/api";
 import Loader from "../../../shared/ui/Loader/Loader";
+import RouteModal from "../../../shared/ui/RouteModal/RouteModal";
+
+// Removed STATUS_MAP and DashboardTrip as we use IFleetDashboardTrip directly
 
 const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [tripsData, setTripsData] = useState([
-    {
-      id: "R26-030413",
-      driver: "Степаненко Ігор Авралович",
-      status: "В дорозі",
-      modifier: "in-progress",
-      dep: "м.Львів, вулиця Київська, 117, 80461",
-      depTime: "03.04.2026 7:38:00",
-      arr: "м.Київ, вул. Антоновича, 43, 03150",
-      arrTime: "03.04.2026 18:38:00",
-    },
-    {
-      id: "R26-030467",
-      driver: "Грач Владислав Святогорович",
-      status: "Очікує завантаження",
-      modifier: "waiting",
-      dep: "м.Київ, вул. Антоновича, 43, 03150",
-      depTime: "03.04.2026 8:05:00",
-      arr: "м.Житомир, проспект Миру, 37, 10004",
-      arrTime: "03.04.2026 10:30:00",
-    },
-    {
-      id: "R26-030488",
-      driver: "Стукач Єпифаній Ізяславович",
-      status: "Прибув. Очікує розвантаження",
-      modifier: "arrived",
-      dep: "м.Луцьк, проспект Молоді, 9, 43008",
-      depTime: "03.04.2026 6:35:00",
-      arr: "м.Рівне, вулиця Пасхальна, 28, 33015",
-      arrTime: "03.04.2026 8:10:00",
-    },
-  ]);
-  const [statsData, setStatsData] = useState([
-    { id: "1", title: "Кількість ТЗ, які зараз у рейсі", value: "3" },
-    { id: "2", title: "Кількість ТЗ, які зараз вільні", value: "7" },
-    { id: "3", title: "Загальна завантаженість", value: "30%" },
-  ]);
+  const [tripsData, setTripsData] = useState<IFleetDashboardTrip[]>([]);
+  const [statsData, setStatsData] = useState<{ id: string; title: string; value: string }[]>([]);
 
-  useEffect(() => {
+  // Modal states
+  const [selectedTripId, setSelectedTripId] = useState<string | null>(null);
+  const [isRouteLoading, setIsRouteLoading] = useState(false);
+  const [routeData, setRouteData] = useState<IFleetDashboardRoute | null>(null);
+  const [routeError, setRouteError] = useState<string | null>(null);
+
+  const fetchData = useCallback(async (showLoading = true) => {
     try {
-      const fetchData = async () => {
-        setIsLoading(false);
-      };
-      fetchData();
+      if (showLoading) setIsLoading(true);
+      
+      const trips = await getFleetDashboard();
+      setTripsData(trips);
+
+      setStatsData([
+        { id: "1", title: "Активні рейси (в дорозі)", value: trips.length.toString() },
+      ]);
     } catch (err) {
-      console.error(err);
+      console.error("Failed to fetch dashboard data:", err);
+    } finally {
+      if (showLoading) setIsLoading(false);
     }
   }, []);
+
+  useEffect(() => {
+    // Initial fetch
+    fetchData(true);
+
+    // Polling every 30 seconds
+    const interval = setInterval(() => {
+      fetchData(false);
+    }, 30000);
+
+    return () => clearInterval(interval);
+  }, [fetchData]);
+
+  const handleRouteClick = async (tripId: string) => {
+    setSelectedTripId(tripId);
+    setIsRouteLoading(true);
+    setRouteError(null);
+    setRouteData(null);
+
+    try {
+      const data = await getFleetDashboardRoute(tripId);
+      setRouteData(data);
+    } catch (err) {
+      console.error("Failed to fetch route details", err);
+      setRouteError("Не вдалося завантажити деталі маршруту.");
+    } finally {
+      setIsRouteLoading(false);
+    }
+  };
+
+  const handleCloseModal = () => {
+    setSelectedTripId(null);
+    setRouteData(null);
+    setRouteError(null);
+  };
 
   return (
     <div className={styles["container"]}>
@@ -61,8 +78,19 @@ const Dashboard = () => {
         <Loader />
       ) : (
         <>
-          <DashboardTable data={tripsData} />
+          <DashboardTable
+            data={tripsData}
+            onRouteClick={handleRouteClick}
+          />
           <StatList data={statsData} />
+
+          <RouteModal
+            isOpen={!!selectedTripId}
+            onClose={handleCloseModal}
+            isLoading={isRouteLoading}
+            routeData={routeData}
+            error={routeError}
+          />
         </>
       )}
     </div>
@@ -70,3 +98,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+

@@ -8,8 +8,9 @@ import { EButtonTypes, EButtonVariants } from "../../types/button.types";
 export interface FormField {
   name: string;
   label: string;
-  type?: "text" | "password" | "email";
+  type?: "text" | "password" | "email" | "select";
   placeholder?: string;
+  options?: { value: string; label: string }[];
   rules?: RegisterOptions;
 }
 
@@ -52,13 +53,27 @@ const UniversalForm: React.FC<UniversalFormProps> = ({ title, fields, submitText
                   {field.label}
                 </label>
 
-                <input
-                  id={field.name}
-                  type={field.type || "text"}
-                  placeholder={field.placeholder || ""}
-                  {...register(field.name, field.rules)}
-                  className={`${styles["universal-form__input"]} ${hasFieldError ? styles["universal-form__input--error"] : ""}`}
-                />
+                {field.type === "select" ? (
+                  <select
+                    id={field.name}
+                    className={`${styles["universal-form__input"]} ${hasFieldError ? styles["universal-form__input--error"] : ""}`}
+                    {...register(field.name, field.rules)}>
+                    <option value="">{field.placeholder || "Оберіть значення..."}</option>
+                    {field.options?.map((opt) => (
+                      <option key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  <input
+                    id={field.name}
+                    type={field.type || "text"}
+                    placeholder={field.placeholder || ""}
+                    {...register(field.name, field.rules)}
+                    className={`${styles["universal-form__input"]} ${hasFieldError ? styles["universal-form__input--error"] : ""}`}
+                  />
+                )}
 
                 {hasFieldError && (
                   <span className={styles["universal-form__error-message"]}>

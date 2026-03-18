@@ -1,0 +1,94 @@
+
+.trips {
+    &__hub {
+        background: $primary-white;
+        border: 2px solid $primary-black;
+        border-radius: 8px;
+        padding: $size-md $size-lg;
+        margin-bottom: $size-lg;
+        text-align: center;
+    }
+
+    &__hubName {
+        font-family: $font-heading;
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: $primary-black;
+        letter-spacing: 0.02em;
+    }
+
+    &__label {
+        font-family: $font-body;
+        font-weight: 500;
+        font-size: 0.95rem;
+        color: $primary-black;
+        margin-bottom: $size-md;
+    }
+
+    &__heading {
+        display: flex;
+        align-items: center;
+        gap: $size-sm;
+        background: $secondary-bg;
+        padding: $size-sm $size-md;
+        border-radius: 8px;
+        margin-bottom: $size-md;
+        font-family: $font-heading;
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: $primary-black;
+    }
+
+    &__list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: $size-sm;
+    }
+
+    &__item {
+        width: 100%;
+        padding: $size-md $size-lg;
+        background: $primary-white;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        text-align: left;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-family: $font-heading;
+
+        &:hover {
+            border-color: $primary-accent;
+            background: rgba($primary-accent, 0.04);
+            transform: translateX(4px);
+        }
+
+        &:active {
+            transform: translateX(2px);
+        }
+    }
+
+    &__destination {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: $primary-black;
+        margin-bottom: $size-xs;
+    }
+
+    &__duration {
+        font-family: $font-body;
+        font-size: 0.8rem;
+        font-weight: 500;
+        color: #666;
+    }
+
+    &__empty {
+        font-family: $font-body;
+        font-size: 0.9rem;
+        color: #999;
+        text-align: center;
+        padding: $size-xl 0;
+    }
+}

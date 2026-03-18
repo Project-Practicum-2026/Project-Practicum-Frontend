@@ -5,6 +5,7 @@ import textData from "../../textData/ua.json";
 import Button from "../../shared/ui/Button/Button";
 import { EButtonVariants } from "../../shared/types/button.types";
 import styles from "./Home.module.scss";
+import PageHeader from "../../shared/ui/PageHeader/PageHeader";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -25,25 +26,38 @@ const Home = () => {
         </picture>
 
         <div className={styles["hero__content"]}>
-          <h1 className={styles["hero__title"]}>{textData.homePage.hero.title}</h1>
-          <p className={styles["hero__text"]}>{textData.homePage.hero.description}</p>
+          <h1 className={styles["hero__title"]}>
+            {textData.homePage.hero.title}
+          </h1>
+          <p className={styles["hero__text"]}>
+            {textData.homePage.hero.description}
+          </p>
 
           <Button
             variant={EButtonVariants.DEFAULT}
-            onClick={() => navigate(ROUTES.ABOUT)}>
+            onClick={() => navigate(ROUTES.ABOUT)}
+          >
             {textData.homePage.hero.button}
           </Button>
         </div>
       </section>
 
       {/* 2. Секція заклику до авторизації */}
-      {/* <section className={styles["auth-promo"]}>
-        <div className={styles["auth-promo__content"]}>
+      <section className={styles["auth-promo"]}>
+        {/* <div className={styles["auth-promo__content"]}>
           <p className={styles["auth-promo__text"]}>
             {textData.homePage.authPromo.textStart}
             <span className={styles["auth-promo__text-accent"]}>{textData.homePage.authPromo.textAccent}</span>
             {textData.homePage.authPromo.textEnd}
           </p>
+        </div> */}
+
+        <div className={styles["auth-promo__content"]}>
+          <PageHeader
+            textStart={textData.homePage.authPromo.textStart}
+            textAccent={textData.homePage.authPromo.textAccent}
+            textEnd={textData.homePage.authPromo.textEnd}
+          />
         </div>
 
         <picture className={styles["auth-promo__image-wrapper"]}>
@@ -57,12 +71,12 @@ const Home = () => {
             className={styles["auth-promo__image"]}
           />
         </picture>
-      </section> */}
+      </section>
 
       {/* Форма авторизації */}
-      {/* <div className={styles["form-holder"]}>
+      <div className={styles["form-holder"]}>
         <LoginForm />
-      </div> */}
+      </div>
     </div>
   );
 };

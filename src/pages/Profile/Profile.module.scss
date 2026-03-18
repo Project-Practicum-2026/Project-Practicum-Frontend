@@ -1,0 +1,49 @@
+.profile {
+  padding: 40px 20px;
+  max-width: 600px;
+  margin: 0 auto;
+
+  &__card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  &__title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #333;
+    text-align: center;
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    label {
+      font-size: 14px;
+      color: #777;
+    }
+
+    span {
+      font-size: 16px;
+      color: #333;
+      font-weight: 500;
+      padding: 12px;
+      background: #f9f9f9;
+      border-radius: 8px;
+    }
+  }
+
+  &__actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+  }
+}

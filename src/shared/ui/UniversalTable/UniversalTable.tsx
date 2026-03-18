@@ -17,9 +17,9 @@ interface UniversalTableProps<T> {
   title: string;
   columns: TableColumn<T>[];
   data: T[];
-  onSaveEdit: (item: T) => void;
-  onDelete: (item: T) => void;
-  deleteBtnText: string;
+  onSaveEdit?: (item: T) => void;
+  onDelete?: (item: T) => void;
+  deleteBtnText?: string;
 }
 
 function UniversalTable<T extends { id: string | number }>({
@@ -44,7 +44,7 @@ function UniversalTable<T extends { id: string | number }>({
   };
 
   const handleSave = () => {
-    onSaveEdit(editFormData as T);
+    if (onSaveEdit) onSaveEdit(editFormData as T);
     setEditingId(null);
   };
 
@@ -69,10 +69,12 @@ function UniversalTable<T extends { id: string | number }>({
                 {col.header}
               </th>
             ))}
-            <th
-              className={styles["universal-table__th"]}
-              style={{ border: "none", background: "transparent" }}
-            />
+            {(onSaveEdit || onDelete) && (
+              <th
+                className={styles["universal-table__th"]}
+                style={{ border: "none", background: "transparent" }}
+              />
+            )}
           </tr>
         </thead>
         <tbody>
@@ -127,37 +129,44 @@ function UniversalTable<T extends { id: string | number }>({
                   );
                 })}
 
-                <td className={`${styles["universal-table__td"]} ${styles["universal-table__td--actions"]}`}>
-                  <div className={styles["universal-table__actions"]}>
-                    {isEditing ? (
-                      <>
-                        <button
-                          onClick={handleSave}
-                          className={`${styles["universal-table__btn"]} ${styles["universal-table__btn--save"]}`}>
-                          ЗБЕРЕГТИ
-                        </button>
-                        <button
-                          onClick={handleCancelEdit}
-                          className={`${styles["universal-table__btn"]} ${styles["universal-table__btn--cancel"]}`}>
-                          СКАСУВАТИ
-                        </button>
-                      </>
-                    ) : (
-                      <>
-                        <button
-                          onClick={() => handleStartEdit(item)}
-                          className={`${styles["universal-table__btn"]} ${styles["universal-table__btn--edit"]}`}>
-                          РЕДАГУВАТИ ДАНІ
-                        </button>
-                        <button
-                          onClick={() => onDelete(item)}
-                          className={`${styles["universal-table__btn"]} ${styles["universal-table__btn--delete"]}`}>
-                          {deleteBtnText}
-                        </button>
-                      </>
-                    )}
-                  </div>
-                </td>
+                {/* Actions Column */}
+                {(onSaveEdit || onDelete) && (
+                  <td className={`${styles["universal-table__td"]} ${styles["universal-table__td--actions"]}`}>
+                    <div className={styles["universal-table__actions"]}>
+                      {isEditing ? (
+                        <>
+                          <button
+                            onClick={handleSave}
+                            className={`${styles["universal-table__btn"]} ${styles["universal-table__btn--save"]}`}>
+                            ЗБЕРЕГТИ
+                          </button>
+                          <button
+                            onClick={handleCancelEdit}
+                            className={`${styles["universal-table__btn"]} ${styles["universal-table__btn--cancel"]}`}>
+                            СКАСУВАТИ
+                          </button>
+                        </>
+                      ) : (
+                        <>
+                          {onSaveEdit && (
+                            <button
+                              onClick={() => handleStartEdit(item)}
+                              className={`${styles["universal-table__btn"]} ${styles["universal-table__btn--edit"]}`}>
+                              РЕДАГУВАТИ ДАНІ
+                            </button>
+                          )}
+                          {onDelete && (
+                            <button
+                              onClick={() => onDelete(item)}
+                              className={`${styles["universal-table__btn"]} ${styles["universal-table__btn--delete"]}`}>
+                              {deleteBtnText || "ВИДАЛИТИ"}
+                            </button>
+                          )}
+                        </>
+                      )}
+                    </div>
+                  </td>
+                )}
               </tr>
             );
           })}

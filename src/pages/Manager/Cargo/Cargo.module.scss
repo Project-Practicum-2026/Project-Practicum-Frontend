@@ -1,0 +1,102 @@
+
+
+.wrapper {
+  padding: 40px 20px;
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+}
+
+.filters {
+  display: flex;
+  gap: 12px;
+
+  button {
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    background: transparent;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s;
+
+    &:hover {
+      background: #f5f5f5;
+    }
+  }
+
+  .activeFilter {
+    background: #463bfa; // similar to primary buttons
+    color: white;
+    border-color: #463bfa;
+
+    &:hover {
+      background: darken(#463bfa, 10%);
+    }
+  }
+}
+
+.tableContainer {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th, td {
+    padding: 16px 20px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+  }
+
+  th {
+    background: #f9f9f9;
+    font-weight: 600;
+    color: #555;
+    font-size: 14px;
+    text-transform: uppercase;
+  }
+
+  td {
+    color: #333;
+    font-size: 15px;
+  }
+}
+
+.statusBadge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+
+  &.status_PENDING {
+    background: #fff3cd;
+    color: #856404;
+  }
+
+  &.status_IN_TRANSIT {
+    background: #cce5ff;
+    color: #004085;
+  }
+
+  &.status_DELIVERED {
+    background: #d4edda;
+    color: #155724;
+  }
+}

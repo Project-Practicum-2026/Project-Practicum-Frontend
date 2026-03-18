@@ -1,7 +1,7 @@
 export interface IRegisterData {
   email: string;
   password: string;
-  fullName: string;
+  full_name: string;
   role: ERoles;
 }
 
@@ -19,7 +19,7 @@ export interface ILoginData {
 export interface IUserInfo {
   id: string;
   email: string;
-  fullName: string;
+  full_name: string;
   role: ERoles;
   is_active: boolean;
 }

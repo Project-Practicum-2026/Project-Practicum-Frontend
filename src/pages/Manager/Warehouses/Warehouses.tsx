@@ -1,21 +1,49 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import UniversalTable, { type TableColumn } from "../../../shared/ui/UniversalTable/UniversalTable";
 import UniversalForm, { type FormField } from "../../../shared/ui/UniversalForm/UniversalForm";
+import { getAllWarehouses, addWarehouse, updateWarehouse, deleteWarehouse } from "../../../shared/api";
+import ConfirmModal from "../../../shared/ui/ConfirmModal/ConfirmModal";
+import { Warehouse as WarehouseIcon } from "lucide-react";
+import Loader from "../../../shared/ui/Loader/Loader";
 
 export interface Warehouse {
   id: string;
   name: string;
   address: string;
+  _backendId: string;
 }
 
 const Warehouses: React.FC = () => {
-  const [warehouses, setWarehouses] = useState<Warehouse[]>([
-    { id: "S34-057413", name: "Київський логістичний хаб", address: "м.Київ, вул. Антоновича, 43, 03150" },
-    { id: "S48-028467", name: "Житомирський логістичний хаб", address: "м.Житомир, проспект Миру, 37, 10004" },
-    { id: "S56-031488", name: "Львівський логістичний хаб", address: "м.Львів, вулиця Київська, 117, 80461" },
-    { id: "S86-035888", name: "Рівенський логістичний хаб", address: "м.Рівне, вулиця Пасхальна, 28, 33015" },
-    { id: "S86-035488", name: "Луцький логістичний хаб", address: "м.Луцьк, проспект Молоді, 9, 43008" },
-  ]);
+  const [warehouses, setWarehouses] = useState<Warehouse[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [warehouseToDelete, setWarehouseToDelete] = useState<Warehouse | null>(null);
+
+  const fetchWarehouses = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      const data = await getAllWarehouses();
+      setWarehouses(
+        data.map((w) => ({
+          id: w.id.slice(0, 12).toUpperCase(),
+          name: w.name,
+          address: w.address,
+          _backendId: w.id,
+        }))
+      );
+    } catch (err) {
+      console.error("Failed to fetch warehouses:", err);
+      setError("Не вдалося завантажити список складів");
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchWarehouses();
+  }, [fetchWarehouses]);
 
   const warehouseColumns: TableColumn<Warehouse>[] = [
     {
@@ -33,6 +61,52 @@ const Warehouses: React.FC = () => {
       editable: true,
     },
   ];
+
+  const handleSaveEdit = async (updatedWh: Warehouse) => {
+    const originalWh = warehouses.find(w => w._backendId === updatedWh._backendId);
+    
+    // Optistic update
+    setWarehouses(prev => 
+      prev.map(w => w._backendId === updatedWh._backendId ? updatedWh : w)
+    );
+    
+    try {
+      if (originalWh && (originalWh.name !== updatedWh.name || originalWh.address !== updatedWh.address)) {
+        await updateWarehouse(updatedWh._backendId, {
+          name: updatedWh.name,
+          address: updatedWh.address
+        });
+      }
+    } catch (err) {
+      console.error("Failed to update warehouse:", err);
+      // Rollback
+      if (originalWh) {
+        setWarehouses(prev => 
+          prev.map(w => w._backendId === originalWh._backendId ? originalWh : w)
+        );
+      }
+      alert("Помилка збереження даних складу");
+    }
+  };
+
+  const handleDelete = (whToDelete: Warehouse) => {
+    setWarehouseToDelete(whToDelete);
+    setIsDeleteModalOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!warehouseToDelete) return;
+    try {
+      await deleteWarehouse(warehouseToDelete._backendId);
+      setWarehouses(prev => prev.filter(w => w._backendId !== warehouseToDelete._backendId));
+    } catch (err) {
+      console.error("Failed to delete warehouse:", err);
+      alert("Помилка при видаленні складу");
+    } finally {
+      setIsDeleteModalOpen(false);
+      setWarehouseToDelete(null);
+    }
+  };
 
   const addWarehouseFields: FormField[] = [
     {
@@ -52,40 +126,75 @@ const Warehouses: React.FC = () => {
         required: "Введіть повну адресу складу",
       },
     },
+    {
+      name: "contact_email",
+      label: "Контактний Email",
+      type: "email",
+      placeholder: "warehouse@company.com",
+      rules: {
+        required: "Введіть контактний email",
+        pattern: {
+          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+          message: "Некоректний формат email",
+        },
+      },
+    },
+    {
+      name: "latitude",
+      label: "Широта",
+      placeholder: "49.9935",
+      rules: {
+        required: "Введіть широту",
+      },
+    },
+    {
+      name: "longitude",
+      label: "Довгота",
+      placeholder: "36.2304",
+      rules: {
+        required: "Введіть довготу",
+      },
+    },
   ];
 
-  const handleSaveEdit = (updatedWarehouse: Warehouse) => {
-    console.log("Оновлено дані складу:", updatedWarehouse);
-    setWarehouses((prev) => prev.map((w) => (w.id === updatedWarehouse.id ? updatedWarehouse : w)));
-  };
 
-  const handleDelete = (warehouse: Warehouse) => {
-    if (window.confirm(`Ви дійсно хочете видалити склад "${warehouse.name}"?`)) {
-      setWarehouses((prev) => prev.filter((w) => w.id !== warehouse.id));
+
+  const handleAddWarehouse = async (data: Record<string, string>) => {
+    try {
+      setError(null);
+      await addWarehouse({
+        name: data.name,
+        address: data.address,
+        contact_email: data.contact_email,
+        latitude: parseFloat(data.latitude),
+        longitude: parseFloat(data.longitude),
+      });
+      await fetchWarehouses();
+    } catch (err) {
+      console.error("Failed to add warehouse:", err);
+      setError("Не вдалося додати склад. Перевірте дані.");
     }
   };
 
-  const handleAddWarehouse = (data: Record<string, string>) => {
-    console.log("Дані нового складу для відправки:", data);
-
-    const newWarehouse: Warehouse = {
-      id: `S${Math.floor(Math.random() * 90 + 10)}-${Math.floor(Math.random() * 900000 + 100000)}`,
-      name: data.name,
-      address: data.address,
-    };
-
-    setWarehouses((prev) => [...prev, newWarehouse]);
-  };
+  if (isLoading) {
+    return (
+      <div style={{ display: "flex", justifyContent: "center", padding: 40 }}>
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <div style={{ padding: 20 }}>
+      {error && <p style={{ color: "red", marginBottom: 16 }}>{error}</p>}
+
       <UniversalTable<Warehouse>
         title="СКЛАДИ ПАРТНЕРІВ"
         columns={warehouseColumns}
         data={warehouses}
         onSaveEdit={handleSaveEdit}
         onDelete={handleDelete}
-        deleteBtnText="ВИДАЛИТИ СКЛАД"
+        deleteBtnText="Видалити склад"
       />
 
       <UniversalForm
@@ -93,6 +202,18 @@ const Warehouses: React.FC = () => {
         fields={addWarehouseFields}
         submitText="ДОДАТИ СКЛАД"
         onSubmit={handleAddWarehouse}
+      />
+
+      <ConfirmModal
+        isOpen={isDeleteModalOpen}
+        title="Видалення складу"
+        message={`Ви дійсно бажаєте видалити склад \"${warehouseToDelete?.name || ""}\"? Цю дію неможливо відмінити.`}
+        icon={<WarehouseIcon size={28} />}
+        confirmText="Видалити"
+        cancelText="Скасувати"
+        confirmVariant="danger"
+        onConfirm={confirmDelete}
+        onCancel={() => { setIsDeleteModalOpen(false); setWarehouseToDelete(null); }}
       />
     </div>
   );
